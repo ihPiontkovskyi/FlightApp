@@ -31,4 +31,6 @@ public class TicketDAOImpl implements DAO<Ticket> {
         tx1.commit();
         session.close();
     }
+    public void UpdateItems(ObservableList<Ticket> tickets)
+    {}
 }

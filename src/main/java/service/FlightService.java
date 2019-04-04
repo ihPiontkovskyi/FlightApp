@@ -15,4 +15,5 @@ public class FlightService implements AbstractService<Flight> {
         return flightDAO.FindAll();
     }
     public void Delete(Flight flight){ flightDAO.DeleteItem(flight);}
+    public void Update(ObservableList<Flight> flights ) { }
 }

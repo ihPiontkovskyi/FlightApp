@@ -31,5 +31,7 @@ public class BoardDAOImpl implements DAO<Board> {
         tx1.commit();
         session.close();
     }
+    public void UpdateItems(ObservableList<Board> boards)
+    {}
 
 }

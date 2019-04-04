@@ -31,4 +31,6 @@ public class ClientDAOImpl implements DAO<Client> {
         tx1.commit();
         session.close();
     }
+    public void UpdateItems(ObservableList<Client> clients)
+    {}
 }

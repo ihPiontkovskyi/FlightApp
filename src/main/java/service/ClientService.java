@@ -15,4 +15,5 @@ public class ClientService implements AbstractService<Client> {
         return clientDAO.FindAll();
     }
     public void Delete(Client client){ clientDAO.DeleteItem(client);}
+    public void Update(ObservableList<Client> clients) { }
 }

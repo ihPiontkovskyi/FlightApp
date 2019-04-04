@@ -1,4 +1,4 @@
 package models;
 
-interface BaseModel {
+public interface BaseModel {
 }

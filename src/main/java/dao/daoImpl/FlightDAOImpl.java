@@ -31,4 +31,6 @@ public class FlightDAOImpl implements DAO<Flight> {
         tx1.commit();
         session.close();
     }
+    public void UpdateItems(ObservableList<Flight> flights)
+    {}
 }

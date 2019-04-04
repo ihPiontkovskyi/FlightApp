@@ -15,4 +15,6 @@ public class BoardService implements AbstractService<Board> {
         return boardDAO.FindAll();
     }
     public void Delete(Board board){ boardDAO.DeleteItem(board);}
+    public void Update(ObservableList<Board> boards) { }
+
 }

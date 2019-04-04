@@ -36,4 +36,12 @@ public class AirportDAOImpl implements DAO<Airport> {
             ex.printStackTrace();
         }
     }
+    public void UpdateItems(ObservableList<Airport> airports)
+    {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction tx1 = session.beginTransaction();
+        airports.forEach(e -> session.update(e));
+        tx1.commit();
+        session.close();
+    }
 }

@@ -18,4 +18,5 @@ public class FlightInformationService implements AbstractService<FlightInformati
     public void Delete(FlightInformation flightInformation) {
         flightInfoDAO.DeleteItem(flightInformation);
     }
+    public void Update(ObservableList<FlightInformation> flightInfos) { }
 }

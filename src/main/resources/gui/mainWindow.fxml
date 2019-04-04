@@ -5,197 +5,88 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.control.cell.TextFieldTableCell?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
-
+<?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controls.MainWindowController">
    <children>
       <TabPane fx:id="mainPane" layoutY="41.0" prefHeight="359.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Airport" id ="Airport" onSelectionChanged="#RefreshCurr">
+          <Tab id="Airport" text="Airport">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="airportTable" layoutY="1.0" prefHeight="331.0" prefWidth="600.0" id="Airport" editable="true">
+                        <TableView id="Airport" fx:id="airportTable" editable="true" layoutY="1.0" prefHeight="331.0" prefWidth="600.0">
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab id="Flight" text="Flight">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView id="Flight" fx:id="flightTable" prefHeight="331.0" prefWidth="600.0">
                            <columns>
-                              <TableColumn  prefWidth="82.0" text="City" onEditCommit="#PushToList">
-                                  <cellValueFactory>
-                                      <PropertyValueFactory property="city" />
-                                  </cellValueFactory>
-                                  <cellFactory >
-                                     <TextFieldTableCell  fx:factory="forTableColumn" />
-                                  </cellFactory>
-                              </TableColumn>
-                              <TableColumn  prefWidth="88.0" text="Airport code" onEditCommit="#PushToList">
-                                  <cellValueFactory>
-                                      <PropertyValueFactory property="airport_code"/>
-                                  </cellValueFactory>
-                                  <cellFactory>
-                                      <TextFieldTableCell fx:factory="forTableColumn" />
-                                  </cellFactory>
-                              </TableColumn>
+                               <TableColumn prefWidth="75.0" text="Flight number" >
+                                   <cellValueFactory>
+                                       <PropertyValueFactory property="flightID" />
+                                   </cellValueFactory>
+                               </TableColumn>
                            </columns></TableView>
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab text="Flight" id="Flight" onSelectionChanged="#RefreshCurr">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TableView fx:id="flightTable" prefHeight="331.0" prefWidth="600.0" id="Flight">
-                           <columns>
-                              <TableColumn prefWidth="75.0" text="Duration" >
-                               <cellValueFactory>
-                                   <PropertyValueFactory property="duration"/>
-                               </cellValueFactory>
-                           </TableColumn>
-                              <TableColumn prefWidth="75.0" text="Date" >
-                                  <cellValueFactory>
-                                      <PropertyValueFactory property="date"/>
-                                  </cellValueFactory>
-                              </TableColumn>
-                              <TableColumn prefWidth="75.0" text="Departure" >
-                                  <cellValueFactory>
-                                      <PropertyValueFactory property="departure"/>
-                                  </cellValueFactory>
-                              </TableColumn>
-                              <TableColumn prefWidth="75.0" text="Destination" >
-                                  <cellValueFactory>
-                                      <PropertyValueFactory property="destination"/>
-                                  </cellValueFactory>
-                              </TableColumn>
-                              <TableColumn prefWidth="87.0" text="Flight number" >
-                                  <cellValueFactory>
-                                      <PropertyValueFactory property="flightID"/>
-                                  </cellValueFactory>
-                              </TableColumn>
-                           </columns></TableView>
-                     </children>
-                  </AnchorPane>
-            </content>
-          </Tab>
-            <Tab  text="Client" id="Client" onSelectionChanged="#RefreshCurr">
+            <Tab id="Client" text="Client">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="clientTable" prefHeight="331.0" prefWidth="600.0" id="Client">
-                           <columns>
-                              <TableColumn prefWidth="75.0" text="First name" >
-                                  <cellValueFactory>
-                                      <PropertyValueFactory property="first_name"/>
-                                  </cellValueFactory>
-                              </TableColumn>
-                              <TableColumn prefWidth="75.0" text="Last name" >
-                                  <cellValueFactory>
-                                      <PropertyValueFactory property="last_name"/>
-                                  </cellValueFactory>
-                              </TableColumn>
-                              <TableColumn prefWidth="75.0" text="Passport id" >
-                                  <cellValueFactory>
-                                      <PropertyValueFactory property="passport_id"/>
-                                  </cellValueFactory>
-                              </TableColumn>
-                           </columns></TableView>
+                        <TableView id="Client" fx:id="clientTable" prefHeight="331.0" prefWidth="600.0" />
                      </children>
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab text="Board" id="Board" onSelectionChanged="#RefreshCurr">
+            <Tab id="Board" text="Board">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="boardTable" prefHeight="331.0" prefWidth="600.0" id="Board">
+                         <TableView id="Board" fx:id="boardTable" prefHeight="331.0" prefWidth="600.0" editable="true" >
                            <columns>
-                              <TableColumn prefWidth="91.0" text="Jet type" >
-                                  <cellValueFactory>
-                                      <PropertyValueFactory property="jet_type"/>
-                                  </cellValueFactory>
-                              </TableColumn>
-                              <TableColumn prefWidth="98.0" text="Last repair date" >
-                                  <cellValueFactory>
-                                      <PropertyValueFactory property="last_repair"/>
-                                  </cellValueFactory>
-                              </TableColumn>
-                              <TableColumn prefWidth="74.0" text="Free seats" >
-                                  <cellValueFactory>
-                                      <PropertyValueFactory property="available_seat"/>
-                                  </cellValueFactory>
-                              </TableColumn>
-                              <TableColumn prefWidth="75.0" text="Board number" >
-                                  <cellValueFactory>
-                                      <PropertyValueFactory property="boardID"/>
-                                  </cellValueFactory>
-                              </TableColumn>
-                           </columns></TableView>
+                               <TableColumn prefWidth="75.0" text="Board number" >
+                                   <cellValueFactory>
+                                       <PropertyValueFactory property="boardID" />
+                                   </cellValueFactory>
+                               </TableColumn>
+                           </columns>
+                         </TableView>
                      </children>
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab text="Ticket" id="Ticket" onSelectionChanged="#RefreshCurr">
+            <Tab id="Ticket" text="Ticket">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" >
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="ticketTable" prefHeight="331.0" prefWidth="600.0" id="Ticket">
-                           <columns>
-                              <TableColumn  prefWidth="75.0" text="Price" >
-                                  <cellValueFactory>
-                                      <PropertyValueFactory property="price"/>
-                                 </cellValueFactory>
-                              </TableColumn>
-                              <TableColumn prefWidth="109.0" text="Time of purchase" >
-                                  <cellValueFactory>
-                                      <PropertyValueFactory property="time_purchase"/>
-                                  </cellValueFactory>
-                              </TableColumn>
-                              <TableColumn  prefWidth="99.0" text="Client" >
-                                  <cellValueFactory>
-                                      <PropertyValueFactory property="client"/>
-                                  </cellValueFactory>
-                              </TableColumn>
-                              <TableColumn  prefWidth="79.0" text="Class type" >
-                               <cellValueFactory>
-                                   <PropertyValueFactory property="class_type"/>
-                               </cellValueFactory>
-                           </TableColumn>
-                              <TableColumn  prefWidth="93.0" text="Board" >
-                                  <cellValueFactory>
-                                      <PropertyValueFactory property="board"/>
-                                  </cellValueFactory>
-                              </TableColumn>
-                           </columns></TableView>
+                        <TableView id="Ticket" fx:id="ticketTable" prefHeight="331.0" prefWidth="600.0" />
                      </children>
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab  text="Flight info" id="FlightInfo" onSelectionChanged="#RefreshCurr">
+            <Tab id="FlightInfo" text="Flight info">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="flightInfoTable" prefHeight="331.0" prefWidth="600.0" id="FlightInfo">
-                           <columns>
-                              <TableColumn prefWidth="84.0" text="Board"  >
-                                  <cellValueFactory>
-                                      <PropertyValueFactory property="board"/>
-                                  </cellValueFactory>
-                              </TableColumn>
-                              <TableColumn  prefWidth="92.0" text="Flight" >
-                                  <cellValueFactory>
-                                      <PropertyValueFactory property="flight"/>
-                                  </cellValueFactory>
-                              </TableColumn>
-                           </columns></TableView>
+                        <TableView id="FlightInfo" fx:id="flightInfoTable" prefHeight="331.0" prefWidth="600.0" />
                      </children>
                   </AnchorPane>
               </content>
             </Tab>
         </tabs>
       </TabPane>
-      <Button fx:id="searchBtn" layoutX="169.0" layoutY="10.0" mnemonicParsing="false" text="Search" />
-      <Button fx:id="helpBtn" layoutX="545.0" layoutY="10.0" mnemonicParsing="false" text="Help" />
-      <Button fx:id="deleteBtn" layoutX="64.0" layoutY="10.0" mnemonicParsing="false" text="Delete" onAction="#Delete" />
-      <Button fx:id="addBtn" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="38.0" text="Add" onAction="#Add" />
+      <Button fx:id="searchBtn" layoutX="214.0" layoutY="10.0" mnemonicParsing="false" text="Search" />
+      <Button fx:id="saveTableBtn" layoutX="129.0" layoutY="10.0" mnemonicParsing="false" text="Save table" />
+      <Button fx:id="deleteBtn" layoutX="64.0" layoutY="10.0" mnemonicParsing="false" text="Delete" />
+      <Button fx:id="addBtn" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="38.0" text="Add" />
    </children>
 </AnchorPane>

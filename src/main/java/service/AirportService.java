@@ -15,4 +15,8 @@ public class AirportService implements AbstractService<Airport> {
         return airportDAO.FindAll();
     }
     public void Delete(Airport airport){ airportDAO.DeleteItem(airport);}
+    public void Update(ObservableList<Airport> airports)
+    {
+        airportDAO.UpdateItems(airports);
+    }
 }

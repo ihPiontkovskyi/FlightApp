@@ -18,4 +18,5 @@ public class TicketService implements AbstractService<Ticket> {
     public void Delete(Ticket ticket) {
         ticketDAO.DeleteItem(ticket);
     }
+    public void Update(ObservableList<Ticket> tickets ) { }
 }
