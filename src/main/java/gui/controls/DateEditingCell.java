@@ -22,7 +22,6 @@ public class DateEditingCell<S> extends TableCell<S, Date> {
 
         super();
 
-
         if (datePicker == null) {
             createDatePicker();
         }
@@ -64,45 +63,40 @@ public class DateEditingCell<S> extends TableCell<S, Date> {
     private void setDatePikerDate(String dateAsStr) {
 
         LocalDate ld;
-        int jour, mois, annee;
+        int day, month, year;
 
-        jour = mois = annee = 0;
+        day = month = year = 0;
         try {
-            jour = Integer.parseInt(dateAsStr.substring(0, 2));
-            mois = Integer.parseInt(dateAsStr.substring(3, 5));
-            annee = Integer.parseInt(dateAsStr.substring(6));
+            day = Integer.parseInt(dateAsStr.substring(0, 2));
+            month = Integer.parseInt(dateAsStr.substring(3, 5));
+            year = Integer.parseInt(dateAsStr.substring(6));
         } catch (NumberFormatException e) {
             System.out.println("setDatePikerDate / unexpected error " + e);
         }
 
-        ld = LocalDate.of(annee, mois, jour);
+        ld = LocalDate.of(year, month, day);
         datePicker.setValue(ld);
     }
 
     private void createDatePicker() {
         this.datePicker = new DatePicker();
         datePicker.setEditable(true);
-
+        datePicker.focusedProperty().addListener((arg0, arg1, arg2) -> {
+            if (!arg2) {
+                commitEdit(Date.valueOf((datePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant().atZone(ZoneOffset.UTC).toLocalDate())));
+            }
+        });
         datePicker.setOnAction(t -> {
             LocalDate date = datePicker.getValue();
-
             SimpleDateFormat smp = new SimpleDateFormat("dd/MM/yyyy");
             Calendar cal = Calendar.getInstance();
             cal.set(Calendar.DAY_OF_MONTH, date.getDayOfMonth());
             cal.set(Calendar.MONTH, date.getMonthValue() - 1);
             cal.set(Calendar.YEAR, date.getYear());
-
             setText(smp.format(cal.getTime()));
             Date date_ = Date.valueOf(cal.getTime().toInstant().atZone(ZoneOffset.UTC).toLocalDate());
             commitEdit(date_);
         });
-
-        datePicker.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
-            if (!newValue) {
-                commitEdit(Date.valueOf((datePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant().atZone(ZoneOffset.UTC).toLocalDate())));
-            }
-        });
-
         setAlignment(Pos.CENTER);
     }
 

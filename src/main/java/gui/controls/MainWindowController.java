@@ -129,10 +129,12 @@ public class MainWindowController {
         boardLastRepairColumn.setMinWidth(100);
         boardLastRepairColumn.setCellValueFactory(new PropertyValueFactory<Board, Date>("last_repair"));
         boardLastRepairColumn.setCellFactory(p -> new DateEditingCell<Board>());
+
         boardLastRepairColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Board, Date>>) t -> {
             t.getRowValue().setLast_repair(t.getNewValue());
             changedList.add(t.getRowValue());
         });
+
         return boardLastRepairColumn;
     }
     private TableColumn createBoardFreeSeatColumn() {
