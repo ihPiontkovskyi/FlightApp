@@ -1,7 +1,6 @@
 package gui.controls;
 
 import javafx.application.Platform;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.DatePicker;
@@ -12,7 +11,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.util.Calendar;
 
 public class DateEditingCell<S> extends TableCell<S, Date> {
 
@@ -88,14 +86,16 @@ public class DateEditingCell<S> extends TableCell<S, Date> {
         });
         datePicker.setOnAction(t -> {
             LocalDate date = datePicker.getValue();
-            SimpleDateFormat smp = new SimpleDateFormat("dd/MM/yyyy");
+            /*SimpleDateFormat smp = new SimpleDateFormat("dd/MM/yyyy");
             Calendar cal = Calendar.getInstance();
             cal.set(Calendar.DAY_OF_MONTH, date.getDayOfMonth());
             cal.set(Calendar.MONTH, date.getMonthValue() - 1);
             cal.set(Calendar.YEAR, date.getYear());
             setText(smp.format(cal.getTime()));
             Date date_ = Date.valueOf(cal.getTime().toInstant().atZone(ZoneOffset.UTC).toLocalDate());
-            commitEdit(date_);
+
+             */
+            commitEdit(Date.valueOf(date));
         });
         setAlignment(Pos.CENTER);
     }

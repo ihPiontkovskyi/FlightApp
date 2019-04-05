@@ -1,83 +1,38 @@
 package models;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 
+@Data
 @Entity
 @Table(name = "board")
 public class Board implements BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int boardID;
-    private Date last_repair;
-    private String jet_type;
-    private int available_seat;
+    private Date lastRepair;
+    private String jetType;
+    private int freeSeat;
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FlightInformation> flightInfos;
+    private List<FlightInfo> flightInfos;
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ticket> tickets;
 
-    public Board() {
-    }
-
     @Override
     public String toString() {
-        return jet_type + " #" + boardID;
+        return jetType + " #" + boardID;
     }
 
-    public int getBoardID() {
-        return boardID;
-    }
-
-    public Date getLast_repair() {
-        return last_repair;
-    }
-
-    public void setLast_repair(Date last_repair) {
-        this.last_repair = last_repair;
-    }
-
-    public String getJet_type() {
-        return jet_type;
-    }
-
-    public void setJet_type(String jet_type) {
-        this.jet_type = jet_type;
-    }
-
-    public int getAvailable_seat() {
-        return available_seat;
-    }
-
-    public void setAvailable_seat(int available_seat) {
-        this.available_seat = available_seat;
-    }
-
-    public void addFlightInformation(FlightInformation flightInfo) {
+    public void addFlightInformation(FlightInfo flightInfo) {
         flightInfo.setBoard(this);
         flightInfos.add(flightInfo);
     }
 
-    public void removeFlightInformation(FlightInformation flightInfo) {
+    public void removeFlightInformation(FlightInfo flightInfo) {
         flightInfos.remove(flightInfo);
-    }
-
-    public List<FlightInformation> getFlightInfos() {
-        return flightInfos;
-    }
-
-    public void setFlightInfos(List<FlightInformation> flightInfos) {
-        this.flightInfos = flightInfos;
-    }
-
-    public List<Ticket> getTickets() {
-        return tickets;
-    }
-
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
     }
 
     public void addTicket(Ticket ticket) {

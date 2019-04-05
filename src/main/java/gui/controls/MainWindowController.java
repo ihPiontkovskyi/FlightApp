@@ -29,7 +29,7 @@ public class MainWindowController {
     @FXML
     private TableView<Ticket> ticketTable;
     @FXML
-    private TableView<FlightInformation> flightInfoTable;
+    private TableView<FlightInfo> flightInfoTable;
     @FXML
     private TabPane mainPane;
     @FXML
@@ -37,20 +37,20 @@ public class MainWindowController {
     @FXML
     private Button deleteBtn;
 
-    private Map<TableView, AbstractService> serviceMap;
+    private Map<TableView, Service> serviceMap;
 
 
     private ObservableList<BaseModel> changedList = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
-        serviceMap = new HashMap<TableView, AbstractService>() {{
-            put(airportTable, new AirportService());
-            put(flightTable, new FlightService());
-            put(boardTable, new BoardService());
-            put(clientTable, new ClientService());
-            put(flightInfoTable, new FlightInformationService());
-            put(ticketTable, new TicketService());
+        serviceMap = new HashMap<TableView, Service>() {{
+            put(airportTable, new ServiceImpl<Airport>());
+            put(flightTable, new ServiceImpl<Flight>());
+            put(boardTable, new ServiceImpl<Board>());
+            put(clientTable, new ServiceImpl<Client>());
+            put(flightInfoTable, new ServiceImpl<FlightInfo>());
+            put(ticketTable, new ServiceImpl<Ticket>());
         }};
         RefreshAll();
         setTables();
@@ -61,18 +61,18 @@ public class MainWindowController {
         deleteBtn.setOnAction(e -> {
             Tab selectedTab = mainPane.getSelectionModel().getSelectedItem();
             TableView table = (TableView) selectedTab.getContent().lookup("#" + selectedTab.getId());
-            AbstractService service = serviceMap.get(table);
+            Service service = serviceMap.get(table);
             if (!table.getSelectionModel().isEmpty()) {
-                service.Delete(table.getSelectionModel().getSelectedItem());
-                table.setItems(service.FindAll());
+                service.delete(table.getSelectionModel().getSelectedItem());
+                table.setItems(service.findAll(table.getId()));
             }
         });
     }
     private void RefreshAll() {
         mainPane.getTabs().forEach(e -> {
             TableView table = (TableView) e.getContent().lookup("#" + e.getId());
-            AbstractService service = serviceMap.get(table);
-            table.setItems(service.FindAll());
+            Service service = serviceMap.get(table);
+            table.setItems(service.findAll(table.getId()));
         });
     }
 
@@ -105,7 +105,7 @@ public class MainWindowController {
         airportCodeColumn.setCellValueFactory(new PropertyValueFactory<Airport, String>("airport_code"));
         airportCodeColumn.setCellFactory(p -> new EditingCell<Airport, String>());
         airportCodeColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Airport, String>>) t -> {
-            t.getRowValue().setAirport_code(t.getNewValue());
+            t.getRowValue().setAirportCode(t.getNewValue());
             changedList.add(t.getRowValue());
         });
 
@@ -113,7 +113,7 @@ public class MainWindowController {
     }
     private TableColumn createAirportCityColumn() {TableColumn city = new TableColumn("City");
         city.setMinWidth(100);
-        city.setCellValueFactory(new PropertyValueFactory<AirportService, String>("city"));
+        city.setCellValueFactory(new PropertyValueFactory<Airport, String>("city"));
         city.setCellFactory(p -> new EditingCell<Airport,String>());
         city.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Airport, String>>) t -> {
             t.getRowValue().setCity(t.getNewValue());
@@ -141,10 +141,10 @@ public class MainWindowController {
 
         TableColumn boardFreeSeatColumn = new TableColumn("Free seat");
         boardFreeSeatColumn.setMinWidth(100);
-        boardFreeSeatColumn.setCellValueFactory(new PropertyValueFactory<Board, Integer>("available_seat"));
+        boardFreeSeatColumn.setCellValueFactory(new PropertyValueFactory<Board, Integer>("freeSeat"));
         boardFreeSeatColumn.setCellFactory(p -> new EditingCell<Board,Integer>());
         boardFreeSeatColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Board, Integer>>) t -> {
-            t.getRowValue().setAvailable_seat(t.getNewValue());
+            t.getRowValue().setFreeSeat(t.getNewValue());
             changedList.add(t.getRowValue());
         });
         return boardFreeSeatColumn;
@@ -152,10 +152,10 @@ public class MainWindowController {
     private TableColumn createBoardJetTypeColumn() {
         TableColumn boardJetTypeColumn = new TableColumn("Jet type");
         boardJetTypeColumn.setMinWidth(100);
-        boardJetTypeColumn.setCellValueFactory(new PropertyValueFactory<Board, String>("jet_type"));
+        boardJetTypeColumn.setCellValueFactory(new PropertyValueFactory<Board, String>("jetType"));
         boardJetTypeColumn.setCellFactory(p -> new EditingCell<Board,String>());
         boardJetTypeColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Board, String>>) t -> {
-            t.getRowValue().setJet_type(t.getNewValue());
+            t.getRowValue().setJetType(t.getNewValue());
             changedList.add(t.getRowValue());
         });
         return boardJetTypeColumn;
