@@ -1,5 +1,6 @@
-package gui.controls.TableCellComponent;
+package gui.controls.tableCellComponent;
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -19,6 +20,7 @@ public class EditingCell<T, S> extends TableCell<T, S> {
         }
         setText(null);
         setGraphic(textField);
+        textField.setText(getItem().toString());
         textField.selectAll();
     }
 
@@ -52,25 +54,19 @@ public class EditingCell<T, S> extends TableCell<T, S> {
     private void createTextField() {
         textField = new TextField(getString());
         textField.setMinWidth(this.getWidth() - this.getGraphicTextGap() * 2);
-        textField.focusedProperty().addListener((arg0, arg1, arg2) -> {
-            if (!arg2) {
-                commitEdit((S) textField.getText());
-            }
-        });
-
         textField.setOnKeyReleased(t -> {
             if (t.getCode() == KeyCode.ENTER) {
                 String value = textField.getText();
                 if (value != null) {
                     commitEdit((S) value);
-                } else {
-                    commitEdit(null);
-                }
-            } else if (t.getCode() == KeyCode.ESCAPE) {
-                cancelEdit();
+            } else {
+                commitEdit(null);
             }
-        });
-    }
+        } else if (t.getCode() == KeyCode.ESCAPE) {
+            cancelEdit();
+        }
+    });
+}
 
     private String getString() {
         return getItem() == null ? "" : getItem().toString();

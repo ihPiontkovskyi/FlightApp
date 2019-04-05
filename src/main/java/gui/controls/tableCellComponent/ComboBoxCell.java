@@ -1,4 +1,4 @@
-package gui.controls;
+package gui.controls.tableCellComponent;
 
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
@@ -6,6 +6,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.TableCell;
 import javafx.scene.input.KeyCode;
+
+import java.util.function.Function;
 
 public class ComboBoxCell<T,S> extends TableCell<T, S> {
 
@@ -23,9 +25,7 @@ public class ComboBoxCell<T,S> extends TableCell<T, S> {
         if (comboBox == null) {
             createComboBox();
         }
-
         setGraphic(this.comboBox);
-        setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class ComboBoxCell<T,S> extends TableCell<T, S> {
         super.cancelEdit();
 
         setText(String.valueOf(getItem()));
-        setContentDisplay(ContentDisplay.TEXT_ONLY);
+        setGraphic(null);
     }
 
     public void updateItem(S item, boolean empty) {
@@ -51,14 +51,22 @@ public class ComboBoxCell<T,S> extends TableCell<T, S> {
                 setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
             } else {
                 setText(getString());
-                setContentDisplay(ContentDisplay.TEXT_ONLY);
+                setGraphic(null);
             }
         }
+
     }
 
     private void createComboBox() {
         comboBox = new ComboBox<>();
         comboBox.setItems(list);
+        if(getItem() != null) {
+            comboBox.getSelectionModel().select(getItem());
+        }
+        else
+        {
+            comboBox.getSelectionModel().select(0);
+        }
         comboBox.setMinWidth(this.getWidth() - this.getGraphicTextGap()*2);
         comboBox.setOnKeyPressed(t -> {
             if (t.getCode() == KeyCode.ENTER) {
@@ -67,14 +75,10 @@ public class ComboBoxCell<T,S> extends TableCell<T, S> {
                 cancelEdit();
             }
         });
-        setAlignment(Pos.CENTER);
+        comboBox.setOnAction(t->commitEdit((S)comboBox.getSelectionModel().getSelectedItem()));
     }
 
     private String getString() {
         return getItem() == null ? "" : getItem().toString();
-    }
-
-    public void setComboBox(ObservableList list) {
-        comboBox.setItems(list);
     }
 }

@@ -1,4 +1,4 @@
-package gui.controls.TableCellComponent;
+package gui.controls.tableCellComponent;
 
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -55,21 +55,26 @@ public class DateEditingCell<S, T> extends TableCell<S, T> {
     }
 
     private void setDatePikerDate(String dateAsStr) {
+        if(dateAsStr != null || !dateAsStr.isEmpty()) {
+            LocalDate ld;
+            int day, month, year;
 
-        LocalDate ld;
-        int day, month, year;
+            day = month = year = 0;
+            try {
+                day = Integer.parseInt(dateAsStr.substring(0, 2));
+                month = Integer.parseInt(dateAsStr.substring(3, 5));
+                year = Integer.parseInt(dateAsStr.substring(6));
+            } catch (NumberFormatException e) {
+                System.out.println("setDatePikerDate / unexpected error " + e);
+            }
 
-        day = month = year = 0;
-        try {
-            day = Integer.parseInt(dateAsStr.substring(0, 2));
-            month = Integer.parseInt(dateAsStr.substring(3, 5));
-            year = Integer.parseInt(dateAsStr.substring(6));
-        } catch (NumberFormatException e) {
-            System.out.println("setDatePikerDate / unexpected error " + e);
+            ld = LocalDate.of(year, month, day);
+            datePicker.setValue(ld);
         }
-
-        ld = LocalDate.of(year, month, day);
-        datePicker.setValue(ld);
+        else
+        {
+            datePicker.setValue(LocalDate.now());
+        }
     }
 
     private void createDatePicker() {
@@ -88,8 +93,6 @@ public class DateEditingCell<S, T> extends TableCell<S, T> {
             setText(smp.format(cal.getTime()));
             commitEdit((T) cal.getTime());
         });
-
-        setAlignment(Pos.CENTER);
     }
 
     @Override

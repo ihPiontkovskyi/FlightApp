@@ -1,19 +1,20 @@
 package models;
+
 import lombok.Data;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.sql.Date;
 
 @Data
 @Entity
-@Table (name = "ticket")
-public class Ticket implements BaseModel{
+@Table(name = "ticket")
+public class Ticket implements BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ticketId;
     private double price;
     private String classType;
-    private Timestamp timePurchase;
+    private Date datePurchase;
     @ManyToOne
     @JoinColumn(name = "client")
     private Client client;
