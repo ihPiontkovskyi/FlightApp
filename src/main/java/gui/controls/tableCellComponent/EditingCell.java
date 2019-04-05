@@ -20,8 +20,10 @@ public class EditingCell<T, S> extends TableCell<T, S> {
         }
         setText(null);
         setGraphic(textField);
-        textField.setText(getItem().toString());
-        textField.selectAll();
+        if(getItem() != null) {
+            textField.setText(getItem().toString());
+            textField.selectAll();
+        }
     }
 
     @Override

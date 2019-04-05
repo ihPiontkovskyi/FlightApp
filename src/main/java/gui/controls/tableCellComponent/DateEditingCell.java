@@ -9,6 +9,7 @@ import javafx.scene.control.TableColumn.CellEditEvent;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.Date;
 
 public class DateEditingCell<S, T> extends TableCell<S, T> {
 
@@ -41,13 +42,19 @@ public class DateEditingCell<S, T> extends TableCell<S, T> {
             setText(null);
             setGraphic(null);
         } else {
-
             if (isEditing()) {
                 setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
 
             } else {
-                setDatePikerDate(smp.format(item));
-                setText(smp.format(item));
+                if(item != null) {
+                    setDatePikerDate(smp.format(item));
+                    setText(smp.format(item));
+                }
+                else
+                {
+                    setDatePikerDate(smp.format(new Date().getTime()));
+                    setText(smp.format(new Date().getTime()));
+                }
                 setGraphic(this.datePicker);
                 setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
             }
