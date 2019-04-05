@@ -1,4 +1,4 @@
-package gui.controls;
+package gui.controls.TableCellComponent;
 
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TextField;
@@ -7,7 +7,7 @@ import javafx.scene.input.KeyCode;
 public class EditingCell<T, S> extends TableCell<T, S> {
     private TextField textField;
 
-    EditingCell() {
+    public EditingCell() {
     }
 
     @Override

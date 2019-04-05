@@ -1,6 +1,7 @@
 package gui.controls;
 
-import javafx.collections.FXCollections;
+import gui.controls.TableCellComponent.DateEditingCell;
+import gui.controls.TableCellComponent.EditingCell;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -13,8 +14,12 @@ import service.*;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.ZoneId;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 
 public class MainWindowController {
@@ -36,11 +41,13 @@ public class MainWindowController {
     private Button saveTableBtn;
     @FXML
     private Button deleteBtn;
+    @FXML
+    private Button addBtn;
 
     private Map<TableView, Service> serviceMap;
 
 
-    private ObservableList<BaseModel> changedList = FXCollections.observableArrayList();
+    private Set<BaseModel> changedSet = new HashSet<BaseModel>();
 
     @FXML
     public void initialize() {
@@ -67,7 +74,36 @@ public class MainWindowController {
                 table.setItems(service.findAll(table.getId()));
             }
         });
+        addBtn.setOnAction(e -> {
+            Tab selectedTab = mainPane.getSelectionModel().getSelectedItem();
+            TableView table = (TableView) selectedTab.getContent().lookup("#" + selectedTab.getId());
+            if(table == airportTable)
+            {
+                airportTable.getItems().add(new Airport());
+            }
+            if(table == boardTable)
+            {
+                boardTable.getItems().add(new Board());
+            }
+            if(table == clientTable)
+            {
+                clientTable.getItems().add(new Client());
+            }
+            if(table == flightTable)
+            {
+                flightTable.getItems().add(new Flight());
+            }
+            if(table == ticketTable)
+            {
+                ticketTable.getItems().add(new Ticket());
+            }
+            if(table == flightInfoTable)
+            {
+                flightInfoTable.getItems().add(new FlightInfo());
+            }
+        });
     }
+
     private void RefreshAll() {
         mainPane.getTabs().forEach(e -> {
             TableView table = (TableView) e.getContent().lookup("#" + e.getId());
@@ -76,10 +112,13 @@ public class MainWindowController {
         });
     }
 
-    private  void setTables(){
+    private void setTables() {
         setAirportTable();
         setBoardTable();
-        //setFlightTable();
+        setFlightTable();
+        setClientTable();
+        setFlightInfoTable();
+        setTicketTable();
     }
     private void setAirportTable() {
         TableColumn column = createAirportCityColumn();
@@ -90,9 +129,9 @@ public class MainWindowController {
         TableColumn column = createBoardLastRepairColumn();
         TableColumn column1 = createBoardJetTypeColumn();
         TableColumn column2 = createBoardFreeSeatColumn();
-        boardTable.getColumns().addAll(column,column1,column2);
+        boardTable.getColumns().addAll(column, column1, column2);
     }
-    /*private void setFlightTable() {
+    private void setFlightTable() {
         TableColumn column = createFlightDateColumn();
         TableColumn column1 = createFlightDepartureColumn();
         TableColumn column2 = createFlightDestinationColumn();
@@ -102,11 +141,11 @@ public class MainWindowController {
     private TableColumn createAirportCodeColumn() {
         TableColumn airportCodeColumn = new TableColumn("Airport code");
         airportCodeColumn.setMinWidth(100);
-        airportCodeColumn.setCellValueFactory(new PropertyValueFactory<Airport, String>("airport_code"));
+        airportCodeColumn.setCellValueFactory(new PropertyValueFactory<Airport, String>("airportCode"));
         airportCodeColumn.setCellFactory(p -> new EditingCell<Airport, String>());
         airportCodeColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Airport, String>>) t -> {
             t.getRowValue().setAirportCode(t.getNewValue());
-            changedList.add(t.getRowValue());
+            changedSet.add(t.getRowValue());
         });
 
         return airportCodeColumn;
@@ -117,7 +156,7 @@ public class MainWindowController {
         city.setCellFactory(p -> new EditingCell<Airport,String>());
         city.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Airport, String>>) t -> {
             t.getRowValue().setCity(t.getNewValue());
-            changedList.add(t.getRowValue());
+            changedSet.add(t.getRowValue());
         });
 
         return city;
@@ -145,7 +184,7 @@ public class MainWindowController {
         boardFreeSeatColumn.setCellFactory(p -> new EditingCell<Board,Integer>());
         boardFreeSeatColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Board, Integer>>) t -> {
             t.getRowValue().setFreeSeat(t.getNewValue());
-            changedList.add(t.getRowValue());
+            changedSet.add(t.getRowValue());
         });
         return boardFreeSeatColumn;
     }
@@ -156,7 +195,7 @@ public class MainWindowController {
         boardJetTypeColumn.setCellFactory(p -> new EditingCell<Board,String>());
         boardJetTypeColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Board, String>>) t -> {
             t.getRowValue().setJetType(t.getNewValue());
-            changedList.add(t.getRowValue());
+            changedSet.add(t.getRowValue());
         });
         return boardJetTypeColumn;
     }
@@ -175,11 +214,11 @@ public class MainWindowController {
     private TableColumn createFlightDateColumn(){
         TableColumn flightDateColumn = new TableColumn("Date");
         flightDateColumn.setMinWidth(100);
-        flightDateColumn.setCellValueFactory(new PropertyValueFactory<Flight, Airport>("date"));
-        flightDateColumn.setCellFactory(p -> new DateEditingCell<Flight>());
+        flightDateColumn.setCellValueFactory(new PropertyValueFactory<Flight, Date>("date"));
+        flightDateColumn.setCellFactory(p -> new DateEditingCell<Flight, java.util.Date>());
         flightDateColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Flight, Date>>) t -> {
             t.getRowValue().setDate(t.getNewValue());
-            changedList.add(t.getRowValue());
+            changedSet.add(t.getRowValue());
         });
         return flightDateColumn;
     }
@@ -190,7 +229,7 @@ public class MainWindowController {
         flightDepartureColumn.setCellFactory(p -> new ComboBoxCell<Flight,Airport>(serviceMap.get(airportTable).FindAll()));
         flightDepartureColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Flight, Airport>>) t -> {
             t.getRowValue().setDeparture(t.getNewValue());
-            changedList.add(t.getRowValue());
+            changedSet.add(t.getRowValue());
         });
         return flightDepartureColumn;
     }
@@ -201,7 +240,7 @@ public class MainWindowController {
         flightDepartureColumn.setCellFactory(p -> new EditingCell<Flight,String>());
         flightDepartureColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Flight, String>>) t -> {
             t.getRowValue().setDuration(Time.valueOf(t.getNewValue()));
-            changedList.add(t.getRowValue());
+            changedSet.add(t.getRowValue());
         });
         return flightDepartureColumn;
     }

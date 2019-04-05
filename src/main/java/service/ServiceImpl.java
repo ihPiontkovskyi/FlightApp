@@ -4,6 +4,8 @@ import dao.Dao;
 import dao.DaoImpl;
 import javafx.collections.ObservableList;
 
+import java.util.Set;
+
 public class ServiceImpl<T> implements Service<T> {
 
     private Dao<T> dao;
@@ -20,8 +22,8 @@ public class ServiceImpl<T> implements Service<T> {
         dao.delete(t);
     }
 
-    public void update(ObservableList<T> t) {
-        dao.update(t);
+    public void saveOrUpdate(Set<T> t) {
+        dao.saveOrUpdate(t);
     }
 }
 

@@ -12,9 +12,11 @@ public class FlightInfo implements BaseModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int flight_infoID;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "flight")
     private Flight flight;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name = "board")
     private Board board;
 
 

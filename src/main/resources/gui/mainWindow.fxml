@@ -26,7 +26,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView id="Flight" fx:id="flightTable" prefHeight="331.0" prefWidth="600.0">
+                        <TableView id="Flight" fx:id="flightTable" prefHeight="331.0" prefWidth="600.0" editable="true">
                            <columns>
                                <TableColumn prefWidth="75.0" text="Flight number" >
                                    <cellValueFactory>
@@ -42,7 +42,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView id="Client" fx:id="clientTable" prefHeight="331.0" prefWidth="600.0" />
+                        <TableView id="Client" editable="true" fx:id="clientTable" prefHeight="331.0" prefWidth="600.0" />
                      </children>
                   </AnchorPane>
               </content>
@@ -68,7 +68,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView id="Ticket" fx:id="ticketTable" prefHeight="331.0" prefWidth="600.0" />
+                        <TableView id="Ticket" editable="true" fx:id="ticketTable" prefHeight="331.0" prefWidth="600.0" />
                      </children>
                   </AnchorPane>
               </content>
@@ -77,7 +77,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView id="FlightInfo" fx:id="flightInfoTable" prefHeight="331.0" prefWidth="600.0" />
+                        <TableView id="FlightInfo" editable="true" fx:id="flightInfoTable" prefHeight="331.0" prefWidth="600.0" />
                      </children>
                   </AnchorPane>
               </content>

@@ -12,12 +12,12 @@ public class Ticket implements BaseModel{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ticketId;
     private double price;
-    private String class_type;
-    private Timestamp time_purchase;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "clientID")
+    private String classType;
+    private Timestamp timePurchase;
+    @ManyToOne
+    @JoinColumn(name = "client")
     private Client client;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "boardID")
+    @ManyToOne
+    @JoinColumn(name = "board")
     private Board board;
 }

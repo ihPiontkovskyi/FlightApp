@@ -16,8 +16,10 @@ public class Flight implements BaseModel{
     private Time duration;
     private Date date;
     @OneToOne
+    @JoinColumn(name = "destination")
     private Airport destination;
     @OneToOne
+    @JoinColumn(name = "departure")
     private Airport departure;
     @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FlightInfo> boardInfos;

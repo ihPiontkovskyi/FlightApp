@@ -1,22 +1,20 @@
-package gui.controls;
+package gui.controls.TableCellComponent;
 
 import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.geometry.Pos;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableCell;
+import javafx.scene.control.*;
+import javafx.scene.control.TableColumn.CellEditEvent;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
+import java.util.Calendar;
 
-public class DateEditingCell<S> extends TableCell<S, Date> {
+public class DateEditingCell<S, T> extends TableCell<S, T> {
 
     private DatePicker datePicker;
 
-    DateEditingCell() {
+    public DateEditingCell() {
 
         super();
 
@@ -25,13 +23,11 @@ public class DateEditingCell<S> extends TableCell<S, Date> {
         }
         setGraphic(datePicker);
         setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-
         Platform.runLater(() -> datePicker.requestFocus());
-
     }
 
     @Override
-    public void updateItem(Date item, boolean empty) {
+    public void updateItem(T item, boolean empty) {
 
         super.updateItem(item, empty);
 
@@ -44,11 +40,11 @@ public class DateEditingCell<S> extends TableCell<S, Date> {
         if (empty) {
             setText(null);
             setGraphic(null);
-            System.out.println("datePicker is EMPTY");
         } else {
 
             if (isEditing()) {
-                setContentDisplay(ContentDisplay.TEXT_ONLY);
+                setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+
             } else {
                 setDatePikerDate(smp.format(item));
                 setText(smp.format(item));
@@ -78,25 +74,21 @@ public class DateEditingCell<S> extends TableCell<S, Date> {
 
     private void createDatePicker() {
         this.datePicker = new DatePicker();
+        datePicker.setPromptText("dd/MM/yyyy");
         datePicker.setEditable(true);
-        datePicker.focusedProperty().addListener((arg0, arg1, arg2) -> {
-            if (!arg2) {
-                commitEdit(Date.valueOf((datePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant().atZone(ZoneOffset.UTC).toLocalDate())));
-            }
-        });
         datePicker.setOnAction(t -> {
             LocalDate date = datePicker.getValue();
-            /*SimpleDateFormat smp = new SimpleDateFormat("dd/MM/yyyy");
+
+            SimpleDateFormat smp = new SimpleDateFormat("dd/MM/yyyy");
             Calendar cal = Calendar.getInstance();
             cal.set(Calendar.DAY_OF_MONTH, date.getDayOfMonth());
             cal.set(Calendar.MONTH, date.getMonthValue() - 1);
             cal.set(Calendar.YEAR, date.getYear());
-            setText(smp.format(cal.getTime()));
-            Date date_ = Date.valueOf(cal.getTime().toInstant().atZone(ZoneOffset.UTC).toLocalDate());
 
-             */
-            commitEdit(Date.valueOf(date));
+            setText(smp.format(cal.getTime()));
+            commitEdit((T) cal.getTime());
         });
+
         setAlignment(Pos.CENTER);
     }
 
@@ -108,7 +100,24 @@ public class DateEditingCell<S> extends TableCell<S, Date> {
     @Override
     public void cancelEdit() {
         super.cancelEdit();
-        setContentDisplay(ContentDisplay.TEXT_ONLY);
+        setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+    }
+
+    @Override
+    public void commitEdit(T item) {
+        if (!isEditing() && !item.equals(getItem())) {
+            TableView<S> table = getTableView();
+            if (table != null) {
+                TableColumn<S, T> column = getTableColumn();
+                CellEditEvent<S, T> event = new CellEditEvent<>(table,
+                        new TablePosition<S, T>(table, getIndex(), column),
+                        TableColumn.editCommitEvent(), item);
+                Event.fireEvent(column, event);
+            }
+        }
+
+
+        setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
     }
 
 }

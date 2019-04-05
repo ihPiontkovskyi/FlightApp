@@ -8,10 +8,12 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import utils.HibernateSessionFactoryUtil;
 
+import java.util.Set;
+
 @Data
 public class DaoImpl<T> implements Dao<T> {
-    ObservableList<T> list = FXCollections.emptyObservableList();
-    public ObservableList<T> findAll(String tableName) {
+    ObservableList list = FXCollections.emptyObservableList();
+    public ObservableList findAll(String tableName) {
         HibernateSessionFactoryUtil.doInHibernateSession(session -> {
             Query query = session.createQuery("from " + tableName);
             list = FXCollections.observableList(query.list());
@@ -28,10 +30,10 @@ public class DaoImpl<T> implements Dao<T> {
         });
     }
 
-    public void update(ObservableList<T> t) {
+    public void saveOrUpdate(Set<T> t) {
         HibernateSessionFactoryUtil.doInHibernateSession(session -> {
             Transaction tx1 = session.beginTransaction();
-            t.forEach(session::update);
+            t.forEach(session::saveOrUpdate);
             tx1.commit();
         });
     }
