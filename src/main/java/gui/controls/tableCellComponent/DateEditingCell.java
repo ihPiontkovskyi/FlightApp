@@ -34,10 +34,6 @@ public class DateEditingCell<S, T> extends TableCell<S, T> {
 
         SimpleDateFormat smp = new SimpleDateFormat("dd/MM/yyyy");
 
-        if (null == this.datePicker) {
-            System.out.println("datePicker is NULL");
-        }
-
         if (empty) {
             setText(null);
             setGraphic(null);

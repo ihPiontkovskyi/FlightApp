@@ -35,7 +35,7 @@ public class ComboBoxCell<T,S> extends TableCell<T, S> {
         setText(String.valueOf(getItem()));
         setGraphic(null);
     }
-
+    @Override
     public void updateItem(S item, boolean empty) {
         super.updateItem(item, empty);
 

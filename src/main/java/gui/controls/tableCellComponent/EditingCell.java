@@ -8,9 +8,6 @@ import javafx.scene.input.KeyCode;
 public class EditingCell<T, S> extends TableCell<T, S> {
     private TextField textField;
 
-    public EditingCell() {
-    }
-
     @Override
     public void startEdit() {
         super.startEdit();
@@ -21,7 +18,7 @@ public class EditingCell<T, S> extends TableCell<T, S> {
         setText(null);
         setGraphic(textField);
         if(getItem() != null) {
-            textField.setText(getItem().toString());
+            textField.setText(getString());
             textField.selectAll();
         }
     }
@@ -29,7 +26,7 @@ public class EditingCell<T, S> extends TableCell<T, S> {
     @Override
     public void cancelEdit() {
         super.cancelEdit();
-        setText((String) getItem());
+        setText(getString());
         setGraphic(null);
     }
 

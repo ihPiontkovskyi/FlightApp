@@ -12,7 +12,7 @@
    <children>
       <TabPane fx:id="mainPane" layoutY="41.0" prefHeight="359.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab id="Airport" text="Airport">
+          <Tab id="Airport" text="Airport" fx:id="airportTab">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -22,7 +22,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab id="Flight" text="Flight">
+          <Tab id="Flight" text="Flight" fx:id="flightTab">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -38,7 +38,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab id="Client" text="Client">
+            <Tab id="Client" text="Client" fx:id="clientTab">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -47,7 +47,7 @@
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab id="Board" text="Board">
+            <Tab id="Board" text="Board" fx:id="boardTab">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -64,7 +64,7 @@
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab id="Ticket" text="Ticket">
+            <Tab id="Ticket" text="Ticket" fx:id="ticketTab">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -73,7 +73,7 @@
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab id="FlightInfo" text="Flight info">
+            <Tab id="FlightInfo" text="Flight info" fx:id="flightInfoTab">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>

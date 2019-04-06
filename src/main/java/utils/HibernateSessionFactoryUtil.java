@@ -18,31 +18,36 @@ import java.util.function.Function;
 @UtilityClass
 public class HibernateSessionFactoryUtil {
 
-
-	public static void doInHibernateSession(Consumer<Session> sessionConsumer) {
-		SessionFactory sessionFactory = null;
-
-			try {
-				Configuration configuration = new Configuration().configure();
-				configuration.addAnnotatedClass(Airport.class);
-				configuration.addAnnotatedClass(Board.class);
-				configuration.addAnnotatedClass(Client.class);
-				configuration.addAnnotatedClass(Flight.class);
-				configuration.addAnnotatedClass(FlightInfo.class);
-				configuration.addAnnotatedClass(Ticket.class);
-				StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
-				sessionFactory = configuration.buildSessionFactory(builder.build());
-			} catch (Exception e) {
-				System.out.println("Exception!" + e);
+    static SessionFactory sessionFactory = null;
 
 
-		}
-		try (Session session = sessionFactory.openSession()) {
-			sessionConsumer.accept(session);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
+    public static void doInHibernateSession(Consumer<Session> sessionConsumer) {
+        if (sessionFactory == null) {
+            setSession();
+        }
+        try (Session session = sessionFactory.openSession()) {
+            sessionConsumer.accept(session);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
+    public void setSession() {
+        try {
+            Configuration configuration = new Configuration().configure();
+            configuration.addAnnotatedClass(Airport.class);
+            configuration.addAnnotatedClass(Board.class);
+            configuration.addAnnotatedClass(Client.class);
+            configuration.addAnnotatedClass(Flight.class);
+            configuration.addAnnotatedClass(FlightInfo.class);
+            configuration.addAnnotatedClass(Ticket.class);
+            StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
+            sessionFactory = configuration.buildSessionFactory(builder.build());
+        } catch (Exception e) {
+            System.out.println("Exception!" + e);
+
+
+        }
+    }
 
 }
