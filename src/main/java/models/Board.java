@@ -1,6 +1,8 @@
 package models;
 
 import lombok.Data;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.TermVector;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -13,8 +15,11 @@ public class Board implements BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int boardID;
+    @Field(termVector = TermVector.YES)
     private Date lastRepair;
+    @Field(termVector = TermVector.YES)
     private String jetType;
+    @Field(termVector = TermVector.YES)
     private int freeSeat;
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FlightInfo> flightInfos;

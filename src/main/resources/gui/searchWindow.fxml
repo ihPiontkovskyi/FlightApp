@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane  prefHeight="400.0" prefWidth="305.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.windowControllers.SearchWindowController">
+    <children>
+        <TabPane prefHeight="353.0" prefWidth="302.0" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab text="Airport">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="324.0" prefWidth="525.0">
+                            <children>
+                                <Label layoutX="52.0" layoutY="44.0" text="City:" />
+                                <Label layoutX="48.0" layoutY="82.0" text="Code:" />
+                                <TextField fx:id="cityField" layoutX="97.0" layoutY="40.0" />
+                                <TextField fx:id="codeField" layoutX="97.0" layoutY="78.0" />
+                            </children></AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="Flight">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <TextField fx:id="timeField" layoutX="117.0" layoutY="49.0" />
+                                <DatePicker fx:id="flightDateField" layoutX="117.0" layoutY="14.0" />
+                                <Label layoutX="46.0" layoutY="18.0" text="Date:" />
+                                <Label layoutX="46.0" layoutY="53.0" text="Time:" />
+                            </children></AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="Board">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <Label layoutX="69.0" layoutY="37.0" text="Jet type:" />
+                                <Label layoutX="21.0" layoutY="106.0" text="Date of last repair:" />
+                                <Label layoutX="66.0" layoutY="70.0" text="Free seat:" />
+                                <TextField fx:id="jetTypeField" layoutX="126.0" layoutY="33.0" />
+                                <TextField fx:id="freeSeatField" layoutX="126.0" layoutY="66.0" />
+                                <DatePicker fx:id="lastRepairField" layoutX="126.0" layoutY="102.0" />
+                            </children></AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="Client">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <TextField fx:id="firstNameField" layoutX="122.0" layoutY="36.0" />
+                                <TextField fx:id="lastNameField" layoutX="122.0" layoutY="72.0" />
+                                <TextField fx:id="passportField" layoutX="122.0" layoutY="109.0" />
+                                <Label layoutX="51.0" layoutY="40.0" text="First name:" />
+                                <Label layoutX="52.0" layoutY="76.0" text="Last name:" />
+                                <Label layoutX="52.0" layoutY="113.0" text="Passport id:" />
+                            </children></AnchorPane>
+                    </content>
+                </Tab>
+                <Tab text="Ticket">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <TextField fx:id="classField" layoutX="116.0" layoutY="42.0" />
+                                <Label layoutX="41.0" layoutY="46.0" text="Class type:" />
+                                <TextField fx:id="priceField" layoutX="116.0" layoutY="76.0" />
+                                <Label layoutX="41.0" layoutY="80.0" text="Price:" />
+                                <Label layoutX="9.0" layoutY="113.0" text="Date of purchase:" />
+                                <DatePicker fx:id="purchaseField" layoutX="116.0" layoutY="109.0" />
+                            </children></AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+        <Button fx:id="startSearch" layoutX="41.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Search" />
+      <Button fx:id="cancelBtn" layoutX="175.0" layoutY="361.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Cancel" />
+    </children>
+</AnchorPane>

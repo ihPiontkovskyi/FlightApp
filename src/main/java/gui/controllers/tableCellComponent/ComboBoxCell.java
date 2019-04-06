@@ -1,13 +1,10 @@
-package gui.controls.tableCellComponent;
+package gui.controllers.tableCellComponent;
 
 import javafx.collections.ObservableList;
-import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.TableCell;
 import javafx.scene.input.KeyCode;
-
-import java.util.function.Function;
 
 public class ComboBoxCell<T,S> extends TableCell<T, S> {
 

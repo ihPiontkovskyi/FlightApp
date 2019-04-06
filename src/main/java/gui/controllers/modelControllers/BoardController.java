@@ -1,7 +1,7 @@
-package gui.controls;
+package gui.controllers.modelControllers;
 
-import gui.controls.tableCellComponent.DateEditingCell;
-import gui.controls.tableCellComponent.EditingCell;
+import gui.controllers.tableCellComponent.DateEditingCell;
+import gui.controllers.tableCellComponent.EditingCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -15,10 +15,10 @@ import service.ServiceImpl;
 import java.sql.Date;
 import java.time.ZoneId;
 
-class BoardController extends BaseController {
+public class BoardController extends BaseController {
     private static boolean setColumn = false;
 
-    BoardController(TableView table) {
+    public BoardController(TableView table) {
         tableView.getItems().clear();
         tableView = table;
         checkSet();
@@ -30,7 +30,7 @@ class BoardController extends BaseController {
     }
 
     @Override
-    void add() {
+    public void add() {
         Board board = new Board();
         tableView.getItems().add(board);
         changedSet.add(board);

@@ -2,6 +2,7 @@ package dao;
 
 import javafx.collections.ObservableList;
 
+import java.util.Map;
 import java.util.Set;
 
 public interface Dao<T> {
@@ -11,5 +12,8 @@ public interface Dao<T> {
 	void delete(T t);
 
 	void saveOrUpdate(Set<T> t);
+
+	ObservableList search(Map fieldValue);
+
 }
 

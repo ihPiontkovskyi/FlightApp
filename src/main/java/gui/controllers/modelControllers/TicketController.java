@@ -1,8 +1,8 @@
-package gui.controls;
+package gui.controllers.modelControllers;
 
-import gui.controls.tableCellComponent.ComboBoxCell;
-import gui.controls.tableCellComponent.DateEditingCell;
-import gui.controls.tableCellComponent.EditingCell;
+import gui.controllers.tableCellComponent.ComboBoxCell;
+import gui.controllers.tableCellComponent.DateEditingCell;
+import gui.controllers.tableCellComponent.EditingCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -18,12 +18,12 @@ import service.ServiceImpl;
 import java.sql.Date;
 import java.time.ZoneId;
 
-class TicketController extends BaseController {
+public class TicketController extends BaseController {
 
     private static boolean setColumn = false;
     private final ObservableList<String> classes = FXCollections.observableArrayList("Standard","Economy", "Busyness");
 
-    TicketController(TableView table) {
+    public TicketController(TableView table) {
         tableView.getItems().clear();
         tableView = table;
         checkSet();
@@ -36,7 +36,7 @@ class TicketController extends BaseController {
     }
 
     @Override
-    void add() {
+    public void add() {
         Ticket ticket = new Ticket();
         tableView.getItems().add(ticket);
         changedSet.add(ticket);

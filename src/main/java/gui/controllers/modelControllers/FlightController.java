@@ -1,8 +1,8 @@
-package gui.controls;
+package gui.controllers.modelControllers;
 
-import gui.controls.tableCellComponent.ComboBoxCell;
-import gui.controls.tableCellComponent.DateEditingCell;
-import gui.controls.tableCellComponent.TimeSpinnerCell;
+import gui.controllers.tableCellComponent.ComboBoxCell;
+import gui.controllers.tableCellComponent.DateEditingCell;
+import gui.controllers.tableCellComponent.TimeSpinnerCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -18,11 +18,11 @@ import java.sql.Time;
 import java.time.LocalTime;
 import java.time.ZoneId;
 
-class FlightController extends BaseController {
+public class FlightController extends BaseController {
 
     private static boolean setColumn = false;
 
-    FlightController(TableView table) {
+    public FlightController(TableView table) {
         tableView.getItems().clear();
         tableView = table;
         checkSet();
@@ -35,7 +35,7 @@ class FlightController extends BaseController {
     }
 
     @Override
-    void add() {
+    public void add() {
         Flight flight = new Flight();
         tableView.getItems().add(flight);
         changedSet.add(flight);

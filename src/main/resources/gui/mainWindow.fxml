@@ -8,27 +8,27 @@
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controls.MainWindowController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.windowControllers.MainWindowController">
    <children>
-      <TabPane fx:id="mainPane" layoutY="41.0" prefHeight="359.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="mainPane" layoutY="40.0" prefHeight="359.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab id="Airport" text="Airport" fx:id="airportTab">
+          <Tab id="Airport" fx:id="airportTab" text="Airport">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView id="Airport" fx:id="airportTable" editable="true" layoutY="1.0" prefHeight="331.0" prefWidth="600.0">
+                        <TableView id="Airport" fx:id="airportTable" editable="true" layoutY="1.0" prefHeight="331.0" prefWidth="600.0" AnchorPane.topAnchor="9.0">
                         </TableView>
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab id="Flight" text="Flight" fx:id="flightTab">
+          <Tab id="Flight" fx:id="flightTab" text="Flight">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView id="Flight" fx:id="flightTable" prefHeight="331.0" prefWidth="600.0" editable="true">
+                        <TableView id="Flight" fx:id="flightTable" editable="true" prefHeight="331.0" prefWidth="600.0">
                            <columns>
-                               <TableColumn prefWidth="75.0" text="Flight number" >
+                               <TableColumn prefWidth="75.0" text="Flight number">
                                    <cellValueFactory>
                                        <PropertyValueFactory property="flightID" />
                                    </cellValueFactory>
@@ -38,22 +38,22 @@
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab id="Client" text="Client" fx:id="clientTab">
+            <Tab id="Client" fx:id="clientTab" text="Client">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView id="Client" editable="true" fx:id="clientTable" prefHeight="331.0" prefWidth="600.0" />
+                        <TableView id="Client" fx:id="clientTable" editable="true" prefHeight="331.0" prefWidth="600.0" />
                      </children>
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab id="Board" text="Board" fx:id="boardTab">
+            <Tab id="Board" fx:id="boardTab" text="Board">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                         <TableView id="Board" fx:id="boardTable" prefHeight="331.0" prefWidth="600.0" editable="true" >
+                         <TableView id="Board" fx:id="boardTable" editable="true" prefHeight="331.0" prefWidth="600.0">
                            <columns>
-                               <TableColumn prefWidth="75.0" text="Board number" >
+                               <TableColumn prefWidth="75.0" text="Board number">
                                    <cellValueFactory>
                                        <PropertyValueFactory property="boardID" />
                                    </cellValueFactory>
@@ -64,29 +64,29 @@
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab id="Ticket" text="Ticket" fx:id="ticketTab">
+            <Tab id="Ticket" fx:id="ticketTab" text="Ticket">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView id="Ticket" editable="true" fx:id="ticketTable" prefHeight="331.0" prefWidth="600.0" />
+                        <TableView id="Ticket" fx:id="ticketTable" editable="true" prefHeight="331.0" prefWidth="600.0" />
                      </children>
                   </AnchorPane>
               </content>
             </Tab>
-            <Tab id="FlightInfo" text="Flight info" fx:id="flightInfoTab">
+            <Tab id="FlightInfo" fx:id="flightInfoTab" text="Flight info">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView id="FlightInfo" editable="true" fx:id="flightInfoTable" prefHeight="331.0" prefWidth="600.0" />
+                        <TableView id="FlightInfo" fx:id="flightInfoTable" editable="true" prefHeight="331.0" prefWidth="600.0" />
                      </children>
                   </AnchorPane>
               </content>
             </Tab>
         </tabs>
       </TabPane>
-      <Button fx:id="searchBtn" layoutX="214.0" layoutY="10.0" mnemonicParsing="false" text="Search" />
-      <Button fx:id="saveTableBtn" layoutX="129.0" layoutY="10.0" mnemonicParsing="false" text="Save table" />
-      <Button fx:id="deleteBtn" layoutX="64.0" layoutY="10.0" mnemonicParsing="false" text="Delete" />
-      <Button fx:id="addBtn" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="38.0" text="Add" />
+      <Button fx:id="searchBtn" layoutX="210.0" layoutY="9.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="57.0" text="Search" AnchorPane.topAnchor="9.0" />
+      <Button fx:id="saveTableBtn" layoutX="129.0" layoutY="9.0" mnemonicParsing="false" text="Save table" AnchorPane.topAnchor="9.0" />
+      <Button fx:id="deleteBtn" layoutX="64.0" layoutY="9.0" mnemonicParsing="false" text="Delete" AnchorPane.topAnchor="9.0" />
+      <Button fx:id="addBtn" layoutX="14.0" layoutY="9.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="38.0" text="Add" AnchorPane.topAnchor="9.0" />
    </children>
 </AnchorPane>

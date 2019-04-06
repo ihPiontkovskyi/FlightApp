@@ -2,6 +2,7 @@ package service;
 
 import javafx.collections.ObservableList;
 
+import java.util.Map;
 import java.util.Set;
 
 public interface Service<T> {
@@ -11,4 +12,6 @@ public interface Service<T> {
 	void delete(T t);
 
 	void saveOrUpdate(Set<T> set);
+
+	ObservableList search(Map map);
 }

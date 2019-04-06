@@ -4,6 +4,7 @@ import dao.Dao;
 import dao.DaoImpl;
 import javafx.collections.ObservableList;
 
+import java.util.Map;
 import java.util.Set;
 
 public class ServiceImpl<T> implements Service<T> {
@@ -24,6 +25,10 @@ public class ServiceImpl<T> implements Service<T> {
 
     public void saveOrUpdate(Set<T> t) {
         dao.saveOrUpdate(t);
+    }
+
+    public ObservableList search(Map map) {
+       return dao.search(map);
     }
 }
 

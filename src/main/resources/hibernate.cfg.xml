@@ -8,7 +8,7 @@
             <property name="connection.url">jdbc:mysql://localhost:3306/flight</property>
             <property name="connection.username">root</property>
             <property name="connection.password">root</property>
-
-
+            <property name="hibernate.search.default.directory_provider">filesystem</property>
+            <property name="hibernate.search.default.indexBase">/var/lucene/indexes</property>
         </session-factory>
     </hibernate-configuration>

@@ -1,4 +1,4 @@
-package gui.controls.tableCellComponent;
+package gui.controllers.tableCellComponent;
 
 
 import javafx.application.Platform;

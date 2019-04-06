@@ -1,12 +1,21 @@
-package gui.controls;
+package gui.controllers.modelControllers;
 
+import gui.mainWindow.FlightApp;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import models.BaseModel;
 import service.Service;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -14,10 +23,11 @@ public abstract class BaseController {
     static Set<BaseModel> changedSet = new HashSet<BaseModel>();
     TableView tableView = new TableView();
     Service service = null;
+    static Map fieldValue = null;
 
-    abstract void add();
+    public abstract void add();
 
-    void saveOrUpdate() {
+    public void saveOrUpdate() {
         service.saveOrUpdate(changedSet);
         if (service.findAll(tableView.getId()).size() != tableView.getItems().size()) {
             Alert alert_ = new Alert(Alert.AlertType.ERROR, "An exception occurred!");
@@ -28,7 +38,7 @@ public abstract class BaseController {
         }
     }
 
-    void delete() {
+    public void delete() {
         Alert alert = new Alert(Alert.AlertType.WARNING, "Are you sure?!");
         alert.setHeaderText("Warning");
         ButtonType buttonTypeDelete = new ButtonType("Delete");
@@ -70,5 +80,30 @@ public abstract class BaseController {
         if (!isEmpty()) {
             confirmation();
         }
+    }
+
+    public void startSearch() {
+        try {
+            Stage stage = new Stage();
+            FXMLLoader root = new FXMLLoader(getClass().getResource("/gui/searchWindow.fxml"));
+            AnchorPane anchorPane = root.load();
+            Scene scene = new Scene(anchorPane, 305, 400);
+            stage.setTitle("Search");
+            stage.setScene(scene);
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(tableView.getScene().getWindow());
+            stage.showAndWait();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void setMap(Map map) {
+        fieldValue = map;
+    }
+    public ObservableList search()
+    {
+        return service.search(fieldValue);
     }
 }

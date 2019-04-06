@@ -1,6 +1,6 @@
-package gui.controls;
+package gui.controllers.modelControllers;
 
-import gui.controls.tableCellComponent.EditingCell;
+import gui.controllers.tableCellComponent.EditingCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -10,11 +10,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import models.Client;
 import service.ServiceImpl;
 
-class ClientController extends BaseController {
+public class ClientController extends BaseController {
 
     private static boolean setColumn = false;
 
-    ClientController(TableView table) {
+    public ClientController(TableView table) {
         tableView.getItems().clear();
         tableView = table;
         checkSet();
@@ -26,7 +26,7 @@ class ClientController extends BaseController {
     }
 
     @Override
-    void add() {
+    public void add() {
         Client client = new Client();
         tableView.getItems().add(client);
         changedSet.add(client);

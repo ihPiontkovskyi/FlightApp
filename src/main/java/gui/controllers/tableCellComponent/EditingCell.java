@@ -1,6 +1,5 @@
-package gui.controls.tableCellComponent;
+package gui.controllers.tableCellComponent;
 
-import javafx.scene.control.Alert;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;

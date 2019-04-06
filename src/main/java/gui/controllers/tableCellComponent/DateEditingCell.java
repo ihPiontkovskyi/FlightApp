@@ -1,8 +1,7 @@
-package gui.controls.tableCellComponent;
+package gui.controllers.tableCellComponent;
 
 import javafx.application.Platform;
 import javafx.event.Event;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.TableColumn.CellEditEvent;
 

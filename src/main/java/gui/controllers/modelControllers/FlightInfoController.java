@@ -1,6 +1,6 @@
-package gui.controls;
+package gui.controllers.modelControllers;
 
-import gui.controls.tableCellComponent.ComboBoxCell;
+import gui.controllers.tableCellComponent.ComboBoxCell;
 import javafx.event.EventHandler;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -10,9 +10,9 @@ import models.Flight;
 import models.FlightInfo;
 import service.ServiceImpl;
 
-class FlightInfoController extends BaseController {
+public class FlightInfoController extends BaseController {
 
-    FlightInfoController(TableView table) {
+    public FlightInfoController(TableView table) {
         tableView.getItems().clear();
         tableView = table;
         checkSet();
@@ -22,7 +22,7 @@ class FlightInfoController extends BaseController {
     }
 
     @Override
-    void add() {
+    public void add() {
         FlightInfo flightInfo = new FlightInfo();
         tableView.getItems().add(flightInfo);
         changedSet.add(flightInfo);

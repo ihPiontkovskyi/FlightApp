@@ -1,5 +1,7 @@
 package models;
 import lombok.Data;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.TermVector;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -13,7 +15,9 @@ public class Flight implements BaseModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int flightID;
+    @Field(termVector = TermVector.YES)
     private Time duration;
+    @Field(termVector = TermVector.YES)
     private Date date;
     @OneToOne
     @JoinColumn(name = "destination")

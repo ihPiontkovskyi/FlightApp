@@ -1,13 +1,14 @@
-package gui.controls;
+package gui.controllers.windowControllers;
 
+import gui.controllers.modelControllers.*;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import models.*;
 
 
 public class MainWindowController {
+    @FXML
+    private TabPane mainPane;
     @FXML
     private TableView<Airport> airportTable;
     @FXML
@@ -38,6 +39,8 @@ public class MainWindowController {
     private Tab flightInfoTab;
     @FXML
     private Tab clientTab;
+    @FXML
+    private Button searchBtn;
 
     private BaseController controller;
 
@@ -53,6 +56,23 @@ public class MainWindowController {
         addBtn.setOnAction(event -> controller.add());
         deleteBtn.setOnAction(event -> controller.delete());
         saveTableBtn.setOnAction(event -> controller.saveOrUpdate());
+        searchBtn.setOnAction(event -> {
+            TableView table = new TableView();
+            table.setPrefSize(600,331);
+            controller.startSearch();
+            table.getItems().addAll(controller.search());
+            if(table.getItems().size() > 0) {
+                Tab tab = new Tab();
+                tab.setContent(table);
+                tab.setText("Search result");
+                tab.setOnSelectionChanged(e -> {
+                    mainPane.getTabs().remove(tab);
+                });
+                mainPane.getTabs().add(tab);
+                SingleSelectionModel<Tab> singleSelectionModel = mainPane.getSelectionModel();
+                singleSelectionModel.select(tab);
+            }
+        });
     }
 
 }

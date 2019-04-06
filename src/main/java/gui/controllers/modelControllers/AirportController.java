@@ -1,6 +1,6 @@
-package gui.controls;
+package gui.controllers.modelControllers;
 
-import gui.controls.tableCellComponent.EditingCell;
+import gui.controllers.tableCellComponent.EditingCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -13,7 +13,7 @@ import service.ServiceImpl;
 public class AirportController extends BaseController {
     private static boolean setColumn = false;
 
-    AirportController(TableView table) {
+    public AirportController(TableView table) {
         tableView.getItems().clear();
         tableView = table;
         checkSet();
