@@ -64,7 +64,6 @@ public class DaoImpl<T> implements Dao<T> {
             AtomicReference<Integer> step = new AtomicReference<>(0);
             fieldValue.forEach((k,v)-> {
                         org.apache.lucene.search.Query luceneQuery = qb.keyword().onField(k.toString()).matching(v).createQuery();
-                org.apache.lucene.search.Query luceneQuery1 = qb.keyword().onField(k.toString()).matching(v).createQuery();
                         Query jpaQuery = null;
                         try {
                            jpaQuery = fullTextSession.createFullTextQuery(luceneQuery, (Class)this.getClass().getGenericSuperclass());

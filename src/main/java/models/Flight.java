@@ -1,4 +1,5 @@
 package models;
+
 import lombok.Data;
 import org.hibernate.search.annotations.*;
 
@@ -10,8 +11,8 @@ import java.util.List;
 @Data
 @Entity
 @Indexed
-@Table (name = "flight")
-public class Flight implements BaseModel{
+@Table(name = "flight")
+public class Flight implements BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int flightID;
@@ -20,7 +21,7 @@ public class Flight implements BaseModel{
     private Time duration;
 
     @Field
-    @DateBridge(resolution= Resolution.DAY)
+    @DateBridge(resolution = Resolution.DAY)
     private Date date;
 
     @IndexedEmbedded
@@ -35,12 +36,19 @@ public class Flight implements BaseModel{
 
     @IndexedEmbedded
     @ManyToMany
+    @JoinTable(
+            name = "flightinfo",
+            joinColumns = {@JoinColumn(name = "flight")},
+            inverseJoinColumns = {@JoinColumn(name = "board")}
+    )
     private List<Board> boards;
+
+
 
 
     @Override
     public String toString() {
-        return departure.getCity() +" - "+destination.getCity()  + " #" + flightID;
+        return departure.getCity() + " - " + destination.getCity() + " #" + flightID;
     }
 }
 

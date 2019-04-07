@@ -17,12 +17,10 @@ public class Airport implements BaseModel {
     private int airportID;
 
     @Field
-    @Column
     private String city;
 
     @Field
     private String airportCode;
-
 
     @Override
     public String toString() {

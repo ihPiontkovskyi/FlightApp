@@ -28,12 +28,20 @@ public class Board implements BaseModel {
 
     @IndexedEmbedded
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FlightInfo> flightInfos;
-
-    @IndexedEmbedded
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ticket> tickets;
 
+    @ContainedIn
+    @ManyToMany(mappedBy = "boards")
+    private List<Flight> flights;
+
+    @IndexedEmbedded
+    @ManyToMany
+    @JoinTable(
+            name = "ticket",
+            joinColumns = {@JoinColumn(name = "board")},
+            inverseJoinColumns = {@JoinColumn(name = "client")}
+    )
+    private List<Client> clients;
 
 
     @Override

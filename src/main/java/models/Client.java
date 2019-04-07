@@ -1,10 +1,7 @@
 package models;
 
 import lombok.Data;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.IndexedEmbedded;
-import org.hibernate.search.annotations.TermVector;
+import org.hibernate.search.annotations.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -29,9 +26,13 @@ public class Client implements BaseModel{
     @Field
     private String passportID;
 
-    @IndexedEmbedded
+    @ContainedIn
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Ticket> tickets;
+
+    @ContainedIn
+    @ManyToMany(mappedBy = "clients")
+    private List<Board> client;
 
     @Override
     public String toString() {

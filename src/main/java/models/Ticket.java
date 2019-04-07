@@ -22,10 +22,10 @@ public class Ticket implements BaseModel {
     private String classType;
 
     @Field
-    @DateBridge(resolution= Resolution.DAY)
+    @DateBridge(resolution = Resolution.DAY)
     private Date datePurchase;
 
-    @ContainedIn
+    @IndexedEmbedded
     @ManyToOne
     @JoinColumn(name = "client")
     private Client client;

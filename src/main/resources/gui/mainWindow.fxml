@@ -52,11 +52,6 @@
                 <TableView id="Ticket" fx:id="ticketTable" editable="true" prefHeight="331.0" prefWidth="600.0" />
             </AnchorPane>
         </Tab>
-        <Tab id="FlightInfo" fx:id="flightInfoTab" text="Flight info">
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                <TableView id="FlightInfo" fx:id="flightInfoTable" editable="true" prefHeight="331.0" prefWidth="600.0" />
-            </AnchorPane>
-        </Tab>
     </TabPane>
     <Button fx:id="searchBtn" layoutX="210.0" layoutY="9.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="57.0" text="Search" AnchorPane.topAnchor="9.0" />
     <Button fx:id="saveTableBtn" layoutX="129.0" layoutY="9.0" mnemonicParsing="false" text="Save table" AnchorPane.topAnchor="9.0" />

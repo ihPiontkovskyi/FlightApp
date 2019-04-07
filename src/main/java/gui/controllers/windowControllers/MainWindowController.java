@@ -21,8 +21,6 @@ public class MainWindowController {
     @FXML
     private TableView<Ticket> ticketTable;
     @FXML
-    private TableView<FlightInfo> flightInfoTable;
-    @FXML
     private Button saveTableBtn;
     @FXML
     private Button deleteBtn;
@@ -54,7 +52,6 @@ public class MainWindowController {
         boardTab.setOnSelectionChanged(event -> controller = new BoardController(boardTable));
         clientTab.setOnSelectionChanged(event -> controller = new ClientController(clientTable));
         flightTab.setOnSelectionChanged(event -> controller = new FlightController(flightTable));
-        flightInfoTab.setOnSelectionChanged(event -> controller = new FlightInfoController(flightInfoTable));
         ticketTab.setOnSelectionChanged(event -> controller = new TicketController(ticketTable));
         addBtn.setOnAction(event -> controller.add());
         deleteBtn.setOnAction(event -> controller.delete());

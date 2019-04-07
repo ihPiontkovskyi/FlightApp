@@ -48,25 +48,7 @@ public class SearchWindowController {
 
     @FXML
     public void initialize() {
-        fieldMap = new HashMap<String, TextField>() {
-            {
-                put("classType", classField);
-                put("passportID", passportField);
-                put("lastName", lastNameField);
-                put("firstName", firstNameField);
-                put("freeSeat", freeSeatField);
-                put("boardInfos", jetTypeField);
-                put("duration", timeField);
-                put("destination.city", cityField);
-                put("price", priceField);
-                put("destination.airportCode", codeField);
-
-            }
-        };
-        fieldMap.forEach((k, v) -> setAction(v, k));
-        setDateAction(flightDateField, "date");
-        setDateAction(purchaseField, "datePurchase");
-        setDateAction(lastRepairField, "lastRepair");
+        setMap();
         startSearch.setOnAction(event -> {
             BaseController.setMap(resultMap);
             ((Node)event.getSource()).getScene().getWindow().hide();
@@ -81,7 +63,6 @@ public class SearchWindowController {
 
         });
     }
-
     private void setDateAction(DatePicker picker, String column) {
         picker.setOnAction(t -> {
             if (!resultMap.containsKey(column)) {
@@ -90,5 +71,92 @@ public class SearchWindowController {
                 resultMap.replace(column, t.toString());
             }
         });
+    }
+    private void setMap()
+    {
+        if(BaseController.getType().equals("Flight")) {
+            fieldMap = new HashMap<String, TextField>() {
+                {
+                    put("boards.tickets.classType", classField);
+                    put("boards.clients.passportID", passportField);
+                    put("boards.clients.lastName", lastNameField);
+                    put("boards.clients.firstName", firstNameField);
+                    put("boards.freeSeat", freeSeatField);
+                    put("boards.jetType", jetTypeField);
+                    put("duration", timeField);
+                    put("destination.city", cityField);
+                    put("boards.tickets.price", priceField);
+                    put("destination.airportCode", codeField);
+
+                }
+            };
+            fieldMap.forEach((k, v) -> setAction(v, k));
+            setDateAction(flightDateField, "date");
+            setDateAction(purchaseField, "boards.tickets.datePurchase");
+            setDateAction(lastRepairField, "boards.lastRepair");
+        }
+        if(BaseController.getType().equals("Boards")) {
+            fieldMap = new HashMap<String, TextField>() {
+                {
+                    put("tickets.classType", classField);
+                    put("clients.passportID", passportField);
+                    put("clients.lastName", lastNameField);
+                    put("clients.firstName", firstNameField);
+                    put("freeSeat", freeSeatField);
+                    put("jetType", jetTypeField);
+                    put("flights.duration", timeField);
+                    put("flights.destination.city", cityField);
+                    put("tickets.price", priceField);
+                    put("flights.destination.airportCode", codeField);
+
+                }
+            };
+            fieldMap.forEach((k, v) -> setAction(v, k));
+            setDateAction(flightDateField, "flights.date");
+            setDateAction(purchaseField, "tickets.datePurchase");
+            setDateAction(lastRepairField, "lastRepair");
+        }
+        if(BaseController.getType().equals("Ticket")) {
+            fieldMap = new HashMap<String, TextField>() {
+                {
+                    put("classType", classField);
+                    put("board.clients.passportID", passportField);
+                    put("board.clients.lastName", lastNameField);
+                    put("board.clients.firstName", firstNameField);
+                    put("board.freeSeat", freeSeatField);
+                    put("board.jetType", jetTypeField);
+                    put("board.flights.duration", timeField);
+                    put("board.flights.destination.city", cityField);
+                    put("price", priceField);
+                    put("board.flights.destination.airportCode", codeField);
+
+                }
+            };
+            fieldMap.forEach((k, v) -> setAction(v, k));
+            setDateAction(flightDateField, "board.flights.date");
+            setDateAction(purchaseField, "datePurchase");
+            setDateAction(lastRepairField, "board.lastRepair");
+        }
+        if(BaseController.getType().equals("Client")) {
+            fieldMap = new HashMap<String, TextField>() {
+                {
+                    put("boards.tickets.classType", classField);
+                    put("passportID", passportField);
+                    put("lastName", lastNameField);
+                    put("firstName", firstNameField);
+                    put("boards.freeSeat", freeSeatField);
+                    put("boards.jetType", jetTypeField);
+                    put("boards.flights.duration", timeField);
+                    put("boards.flights.destination.city", cityField);
+                    put("boards.tickets.price", priceField);
+                    put("boards.flights.destination.airportCode", codeField);
+
+                }
+            };
+            fieldMap.forEach((k, v) -> setAction(v, k));
+            setDateAction(flightDateField, "boards.flights.date");
+            setDateAction(purchaseField, "boards.tickets.datePurchase");
+            setDateAction(lastRepairField, "boards.lastRepair");
+        }
     }
 }
