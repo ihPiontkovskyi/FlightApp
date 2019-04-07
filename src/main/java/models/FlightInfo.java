@@ -16,12 +16,10 @@ public class FlightInfo implements BaseModel{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int flight_infoID;
 
-    @ContainedIn
     @ManyToOne
     @JoinColumn(name = "flight")
     private Flight flight;
 
-    @ContainedIn
     @ManyToOne
     @JoinColumn(name = "board")
     private Board board;

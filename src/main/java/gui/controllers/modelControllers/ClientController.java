@@ -28,6 +28,11 @@ public class ClientController extends BaseController {
         changedSet.add(client);
     }
 
+    @Override
+    public Class getEntity() {
+        return Client.class;
+    }
+
     private void setDynamicColumn() {
         tableView.getColumns().clear();
         TableColumn clientFirstNameColumn = new TableColumn("First name");

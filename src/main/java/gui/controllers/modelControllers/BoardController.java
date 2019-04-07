@@ -32,6 +32,11 @@ public class BoardController extends BaseController {
         changedSet.add(board);
     }
 
+    @Override
+    public Class getEntity() {
+        return Board.class;
+    }
+
     private void setDynamicColumn() {
         tableView.getColumns().clear();
         TableColumn boardLastRepairColumn = new TableColumn("Last repair");

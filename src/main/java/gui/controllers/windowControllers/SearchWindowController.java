@@ -55,11 +55,11 @@ public class SearchWindowController {
                 put("lastName", lastNameField);
                 put("firstName", firstNameField);
                 put("freeSeat", freeSeatField);
-                put("jetType", jetTypeField);
+                put("boardInfos", jetTypeField);
                 put("duration", timeField);
-                put("city", cityField);
+                put("destination.city", cityField);
                 put("price", priceField);
-                put("airportCode", codeField);
+                put("destination.airportCode", codeField);
 
             }
         };

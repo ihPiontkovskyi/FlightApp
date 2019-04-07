@@ -34,8 +34,9 @@ public class Flight implements BaseModel{
     private Airport departure;
 
     @IndexedEmbedded
-    @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FlightInfo> boardInfos;
+    @ManyToMany
+    private List<Board> boards;
+
 
     @Override
     public String toString() {

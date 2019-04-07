@@ -34,6 +34,8 @@ public class Board implements BaseModel {
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ticket> tickets;
 
+
+
     @Override
     public String toString() {
         return jetType + " #" + boardID;

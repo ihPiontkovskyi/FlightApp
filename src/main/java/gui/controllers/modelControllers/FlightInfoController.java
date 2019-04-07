@@ -28,6 +28,11 @@ public class FlightInfoController extends BaseController {
         changedSet.add(flightInfo);
     }
 
+    @Override
+    public Class getEntity() {
+        return FlightInfo.class;
+    }
+
     private void setDynamicColumn() {
         tableView.getColumns().clear();
         TableColumn flightInfoFlightColumn = new TableColumn("Flight");

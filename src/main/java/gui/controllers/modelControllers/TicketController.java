@@ -38,6 +38,11 @@ public class TicketController extends BaseController {
         changedSet.add(ticket);
     }
 
+    @Override
+    public Class getEntity() {
+        return Ticket.class;
+    }
+
     private void setDynamicColumn() {
         tableView.getColumns().clear();
         TableColumn ticketDatePurchaseColumn = new TableColumn("Date purchase");
