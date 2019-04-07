@@ -1,6 +1,7 @@
 package gui.controllers.windowControllers;
 
 import gui.controllers.modelControllers.*;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import models.*;
@@ -41,6 +42,8 @@ public class MainWindowController {
     private Tab clientTab;
     @FXML
     private Button searchBtn;
+    @FXML
+    private Button refreshBtn;
 
     private BaseController controller;
 
@@ -57,22 +60,16 @@ public class MainWindowController {
         deleteBtn.setOnAction(event -> controller.delete());
         saveTableBtn.setOnAction(event -> controller.saveOrUpdate());
         searchBtn.setOnAction(event -> {
-            TableView table = new TableView();
-            table.setPrefSize(600,331);
             controller.startSearch();
-            table.getItems().addAll(controller.search());
-            if(table.getItems().size() > 0) {
-                Tab tab = new Tab();
-                tab.setContent(table);
-                tab.setText("Search result");
-                tab.setOnSelectionChanged(e -> {
-                    mainPane.getTabs().remove(tab);
-                });
-                mainPane.getTabs().add(tab);
-                SingleSelectionModel<Tab> singleSelectionModel = mainPane.getSelectionModel();
-                singleSelectionModel.select(tab);
+            ObservableList foundItems = controller.search();
+            if(foundItems.size() > 0)
+            {
+                controller.getTableView().getItems().clear();
+                controller.getTableView().getItems().addAll(foundItems);
             }
         });
+        refreshBtn.setOnAction(event-> controller.refresh());
+
     }
 
 }

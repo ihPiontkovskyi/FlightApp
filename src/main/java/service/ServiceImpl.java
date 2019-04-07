@@ -5,14 +5,13 @@ import dao.DaoImpl;
 import javafx.collections.ObservableList;
 
 import java.util.Map;
-import java.util.Set;
 
 public class ServiceImpl<T> implements Service<T> {
 
     private Dao<T> dao;
 
     public ServiceImpl() {
-        dao = new DaoImpl<T>();
+        dao = new DaoImpl<>();
     }
 
     public ObservableList<T> findAll(String tableName) {
@@ -23,12 +22,12 @@ public class ServiceImpl<T> implements Service<T> {
         dao.delete(t);
     }
 
-    public void saveOrUpdate(Set<T> t) {
+    public void saveOrUpdate(ObservableList t) {
         dao.saveOrUpdate(t);
     }
 
     public ObservableList search(Map map) {
-       return dao.search(map);
+        return dao.search(map);
     }
 }
 

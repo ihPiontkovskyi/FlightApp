@@ -11,7 +11,7 @@ public interface Service<T> {
 
 	void delete(T t);
 
-	void saveOrUpdate(Set<T> set);
+	void saveOrUpdate(ObservableList set);
 
 	ObservableList search(Map map);
 }

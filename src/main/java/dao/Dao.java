@@ -11,7 +11,7 @@ public interface Dao<T> {
 
 	void delete(T t);
 
-	void saveOrUpdate(Set<T> t);
+	void saveOrUpdate(ObservableList t);
 
 	ObservableList search(Map fieldValue);
 

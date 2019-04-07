@@ -20,7 +20,6 @@ import java.time.ZoneId;
 
 public class TicketController extends BaseController {
 
-    private static boolean setColumn = false;
     private final ObservableList<String> classes = FXCollections.observableArrayList("Standard","Economy", "Busyness");
 
     public TicketController(TableView table) {
@@ -28,9 +27,6 @@ public class TicketController extends BaseController {
         tableView = table;
         checkSet();
         service = new ServiceImpl<Ticket>();
-        if (!setColumn) {
-            tableView.getColumns().addAll(setStaticColumn());
-        }
         setDynamicColumn();
         table.setItems(service.findAll(table.getId()));
     }
@@ -42,7 +38,8 @@ public class TicketController extends BaseController {
         changedSet.add(ticket);
     }
 
-    private ObservableList setStaticColumn() {
+    private void setDynamicColumn() {
+        tableView.getColumns().clear();
         TableColumn ticketDatePurchaseColumn = new TableColumn("Date purchase");
         ticketDatePurchaseColumn.setMinWidth(100);
         ticketDatePurchaseColumn.setCellValueFactory(new PropertyValueFactory<Ticket, Date>("datePurchase"));
@@ -84,15 +81,6 @@ public class TicketController extends BaseController {
                 tableView.refresh();
             }
         });
-        setColumn = true;
-        return FXCollections.observableArrayList(ticketPriceColumn, ticketDatePurchaseColumn, ticketClassTypeColumn);
-    }
-
-    private void setDynamicColumn() {
-        if (tableView.getColumns().size() > 3) {
-            tableView.getColumns().remove(tableView.getColumns().size() - 1);
-            tableView.getColumns().remove(tableView.getColumns().size() - 1);
-        }
         TableColumn ticketClientColumn = new TableColumn("Client");
         ticketClientColumn.setMinWidth(100);
         ticketClientColumn.setCellValueFactory(new PropertyValueFactory<Ticket, Client>("client"));
@@ -109,7 +97,6 @@ public class TicketController extends BaseController {
             t.getRowValue().setBoard(t.getNewValue());
             changedSet.add(t.getRowValue());
         });
-        tableView.getColumns().addAll(ticketClientColumn, ticketBoardColumn);
-
+        tableView.getColumns().addAll(ticketClientColumn, ticketBoardColumn,ticketPriceColumn, ticketDatePurchaseColumn, ticketClassTypeColumn);
     }
 }

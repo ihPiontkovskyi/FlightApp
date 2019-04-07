@@ -13,6 +13,8 @@ import java.util.Map;
 
 public class SearchWindowController {
     @FXML
+    private Button cancelBtn;
+    @FXML
     private TextField classField;
     @FXML
     private TextField passportField;
@@ -41,26 +43,26 @@ public class SearchWindowController {
     @FXML
     private TextField priceField;
 
-    private Map<String, String> resultMap = new HashMap<String, String>();
-    private Map<String, TextField> fieldMap = new HashMap<String, TextField>() {
-        {
-            put("classType", classField);
-            put("passportID", passportField);
-            put("lastName", lastNameField);
-            put("firstName", firstNameField);
-            put("freeSeat", freeSeatField);
-            put("jetType", jetTypeField);
-            put("duration", timeField);
-            put("city", cityField);
-            put("price", priceField);
-            put("airportCode", codeField);
-
-        }
-    };
-
+    private Map<String, String> resultMap = new HashMap<>();
+    private Map<String, TextField> fieldMap;
 
     @FXML
     public void initialize() {
+        fieldMap = new HashMap<String, TextField>() {
+            {
+                put("classType", classField);
+                put("passportID", passportField);
+                put("lastName", lastNameField);
+                put("firstName", firstNameField);
+                put("freeSeat", freeSeatField);
+                put("jetType", jetTypeField);
+                put("duration", timeField);
+                put("city", cityField);
+                put("price", priceField);
+                put("airportCode", codeField);
+
+            }
+        };
         fieldMap.forEach((k, v) -> setAction(v, k));
         setDateAction(flightDateField, "date");
         setDateAction(purchaseField, "datePurchase");
@@ -72,12 +74,11 @@ public class SearchWindowController {
     }
 
     private void setAction(TextField field, String column) {
-        field.setOnKeyReleased(t -> {
-            if (t.getCode() == KeyCode.ENTER) {
-                if (t.getText().trim() != "") {
-                    resultMap.put(column, t.getText());
+        field.textProperty().addListener((observable,oldValue,newValue) -> {
+                if (!newValue.trim().equals("")) {
+                    resultMap.put(column, newValue);
                 } else resultMap.remove(column);
-            }
+
         });
     }
 

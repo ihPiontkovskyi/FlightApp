@@ -2,8 +2,6 @@ package gui.controllers.modelControllers;
 
 import gui.controllers.tableCellComponent.DateEditingCell;
 import gui.controllers.tableCellComponent.EditingCell;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
@@ -23,9 +21,7 @@ public class BoardController extends BaseController {
         tableView = table;
         checkSet();
         service = new ServiceImpl<Board>();
-        if (!setColumn) {
-            tableView.getColumns().addAll(setStaticColumn());
-        }
+        setDynamicColumn();
         table.setItems(service.findAll(table.getId()));
     }
 
@@ -36,7 +32,8 @@ public class BoardController extends BaseController {
         changedSet.add(board);
     }
 
-    private ObservableList setStaticColumn() {
+    private void setDynamicColumn() {
+        tableView.getColumns().clear();
         TableColumn boardLastRepairColumn = new TableColumn("Last repair");
         boardLastRepairColumn.setMinWidth(100);
         boardLastRepairColumn.setCellValueFactory(new PropertyValueFactory<Board, Date>("lastRepair"));
@@ -78,7 +75,6 @@ public class BoardController extends BaseController {
             t.getRowValue().setJetType(t.getNewValue());
             changedSet.add(t.getRowValue());
         });
-        setColumn = true;
-        return FXCollections.observableArrayList(boardFreeSeatColumn, boardJetTypeColumn, boardLastRepairColumn);
+        tableView.getColumns().addAll(boardFreeSeatColumn, boardJetTypeColumn, boardLastRepairColumn);
     }
 }

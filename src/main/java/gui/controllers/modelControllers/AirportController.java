@@ -11,16 +11,13 @@ import models.Airport;
 import service.ServiceImpl;
 
 public class AirportController extends BaseController {
-    private static boolean setColumn = false;
 
     public AirportController(TableView table) {
         tableView.getItems().clear();
         tableView = table;
         checkSet();
         service = new ServiceImpl<Airport>();
-        if (!setColumn) {
-            tableView.getColumns().addAll(setStaticColumn());
-        }
+        setDynamicColumn();
         table.setItems(service.findAll(table.getId()));
     }
 
@@ -31,7 +28,8 @@ public class AirportController extends BaseController {
         changedSet.add(airport);
     }
 
-    private ObservableList setStaticColumn() {
+    private void setDynamicColumn() {
+        tableView.getColumns().clear();
         TableColumn airportCodeColumn = new TableColumn("Airport code");
         airportCodeColumn.setMinWidth(120);
         airportCodeColumn.setCellValueFactory(new PropertyValueFactory<Airport, String>("airportCode"));
@@ -48,7 +46,6 @@ public class AirportController extends BaseController {
             t.getRowValue().setCity(t.getNewValue());
             changedSet.add(t.getRowValue());
         });
-        setColumn = true;
-        return FXCollections.observableArrayList(airportCodeColumn, city);
+       tableView.getColumns().addAll(airportCodeColumn, city);
     }
 }

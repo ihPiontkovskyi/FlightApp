@@ -20,16 +20,11 @@ import java.time.ZoneId;
 
 public class FlightController extends BaseController {
 
-    private static boolean setColumn = false;
-
     public FlightController(TableView table) {
         tableView.getItems().clear();
         tableView = table;
         checkSet();
         service = new ServiceImpl<Flight>();
-        if (!setColumn) {
-            tableView.getColumns().addAll(setStaticColumn());
-        }
         setDynamicColumn();
         table.setItems(service.findAll(table.getId()));
     }
@@ -41,7 +36,8 @@ public class FlightController extends BaseController {
         changedSet.add(flight);
     }
 
-    private ObservableList setStaticColumn() {
+    private void setDynamicColumn() {
+        tableView.getColumns().clear();
         TableColumn flightDateColumn = new TableColumn("Date");
         flightDateColumn.setMinWidth(100);
         flightDateColumn.setCellValueFactory(new PropertyValueFactory<Flight, Date>("date"));
@@ -58,19 +54,10 @@ public class FlightController extends BaseController {
             t.getRowValue().setDuration(Time.valueOf(t.getNewValue()));
             changedSet.add(t.getRowValue());
         });
-        setColumn = true;
-        return FXCollections.observableArrayList(flightDurationColumn, flightDateColumn);
-    }
-
-    private void setDynamicColumn() {
-        if (tableView.getColumns().size() > 3) {
-            tableView.getColumns().remove(tableView.getColumns().size() - 1);
-            tableView.getColumns().remove(tableView.getColumns().size() - 1);
-        }
         TableColumn flightDestinationColumn = new TableColumn("Destination");
         flightDestinationColumn.setMinWidth(100);
         flightDestinationColumn.setCellValueFactory(new PropertyValueFactory<Flight, Airport>("destination"));
-        flightDestinationColumn.setCellFactory(p -> new ComboBoxCell<Flight, Airport>(new ServiceImpl<Airport>().findAll(tableView.getId())));
+        flightDestinationColumn.setCellFactory(p -> new ComboBoxCell<Flight, Airport>(new ServiceImpl<Airport>().findAll("Airport")));
         flightDestinationColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Flight, Airport>>) t -> {
             t.getRowValue().setDestination(t.getNewValue());
             changedSet.add(t.getRowValue());
@@ -78,12 +65,11 @@ public class FlightController extends BaseController {
         TableColumn flightDepartureColumn = new TableColumn("Departure");
         flightDepartureColumn.setMinWidth(100);
         flightDepartureColumn.setCellValueFactory(new PropertyValueFactory<Flight, Airport>("departure"));
-        flightDepartureColumn.setCellFactory(p -> new ComboBoxCell<Flight, Airport>(new ServiceImpl<Airport>().findAll(tableView.getId())));
+        flightDepartureColumn.setCellFactory(p -> new ComboBoxCell<Flight, Airport>(new ServiceImpl<Airport>().findAll("Airport")));
         flightDepartureColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Flight, Airport>>) t -> {
             t.getRowValue().setDeparture(t.getNewValue());
             changedSet.add(t.getRowValue());
         });
-        tableView.getColumns().addAll(flightDestinationColumn, flightDepartureColumn);
-
+        tableView.getColumns().addAll(flightDestinationColumn, flightDepartureColumn,flightDurationColumn, flightDateColumn);
     }
 }

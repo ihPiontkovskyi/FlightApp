@@ -12,16 +12,12 @@ import service.ServiceImpl;
 
 public class ClientController extends BaseController {
 
-    private static boolean setColumn = false;
-
     public ClientController(TableView table) {
         tableView.getItems().clear();
         tableView = table;
         checkSet();
         service = new ServiceImpl<Client>();
-        if (!setColumn) {
-            tableView.getColumns().addAll(setStaticColumn());
-        }
+        setDynamicColumn();
         table.setItems(service.findAll(table.getId()));
     }
 
@@ -32,7 +28,8 @@ public class ClientController extends BaseController {
         changedSet.add(client);
     }
 
-    private ObservableList setStaticColumn() {
+    private void setDynamicColumn() {
+        tableView.getColumns().clear();
         TableColumn clientFirstNameColumn = new TableColumn("First name");
         clientFirstNameColumn.setMinWidth(100);
         clientFirstNameColumn.setCellValueFactory(new PropertyValueFactory<Client, String>("firstName"));
@@ -57,8 +54,7 @@ public class ClientController extends BaseController {
             t.getRowValue().setPassportID(t.getNewValue());
             changedSet.add(t.getRowValue());
         });
-        setColumn = true;
-        return FXCollections.observableArrayList(clientFirstNameColumn, clientLastNameColumn, clientPassportIDColumn);
+        tableView.getColumns().addAll(clientFirstNameColumn, clientLastNameColumn, clientPassportIDColumn);
     }
 
 }

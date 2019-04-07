@@ -1,9 +1,8 @@
 package gui.controllers.modelControllers;
 
-import gui.mainWindow.FlightApp;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -11,18 +10,18 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import lombok.Data;
 import models.BaseModel;
 import service.Service;
 
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
+@Data
 public abstract class BaseController {
-    static Set<BaseModel> changedSet = new HashSet<BaseModel>();
+    static ObservableList<BaseModel> changedSet = FXCollections.observableArrayList();
     TableView tableView = new TableView();
-    Service service = null;
+    static Service service = null;
     static Map fieldValue = null;
 
     public abstract void add();
@@ -48,6 +47,14 @@ public abstract class BaseController {
         if (result.get() == buttonTypeDelete) {
             if (!tableView.getSelectionModel().isEmpty()) {
                 service.delete(tableView.getSelectionModel().getSelectedItem());
+                ObservableList<BaseModel> forDelete = FXCollections.observableArrayList();
+                changedSet.forEach(e -> {
+                    if (e.equals(tableView.getSelectionModel().getSelectedItem())
+                    ) {
+                        forDelete.add(e);
+                    }
+                });
+                changedSet.removeAll(forDelete);
                 tableView.setItems(service.findAll(tableView.getId()));
                 tableView.getItems().remove(tableView.getSelectionModel().getSelectedItem());
             } else {
@@ -87,6 +94,7 @@ public abstract class BaseController {
             Stage stage = new Stage();
             FXMLLoader root = new FXMLLoader(getClass().getResource("/gui/searchWindow.fxml"));
             AnchorPane anchorPane = root.load();
+            //  root.getController();
             Scene scene = new Scene(anchorPane, 305, 400);
             stage.setTitle("Search");
             stage.setScene(scene);
@@ -102,8 +110,13 @@ public abstract class BaseController {
     public static void setMap(Map map) {
         fieldValue = map;
     }
-    public ObservableList search()
-    {
+
+    public ObservableList search() {
         return service.search(fieldValue);
+    }
+
+    public void refresh() {
+        tableView.getItems().clear();
+        tableView.setItems(service.findAll(tableView.getId()));
     }
 }
