@@ -11,11 +11,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Data;
+import models.Airport;
 import models.BaseModel;
+import models.FlightInfo;
 import service.Service;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Data
 public abstract class BaseController {
@@ -89,22 +92,32 @@ public abstract class BaseController {
         }
     }
 
-    public void startSearch() {
-        try {
-            Stage stage = new Stage();
-            FXMLLoader root = new FXMLLoader(getClass().getResource("/gui/searchWindow.fxml"));
-            AnchorPane anchorPane = root.load();
-            //  root.getController();
-            Scene scene = new Scene(anchorPane, 305, 400);
-            stage.setTitle("Search");
-            stage.setScene(scene);
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.initOwner(tableView.getScene().getWindow());
-            stage.showAndWait();
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
+    public boolean startSearch() {
+        if(getEntity() != Airport.class && getEntity() != FlightInfo.class) {
+            try {
+                Stage stage = new Stage();
+                FXMLLoader root = new FXMLLoader(getClass().getResource("/gui/searchWindow.fxml"));
+                AnchorPane anchorPane = root.load();
+                Scene scene = new Scene(anchorPane, 305, 400);
+                stage.setTitle("Search");
+                stage.setScene(scene);
+                stage.initModality(Modality.WINDOW_MODAL);
+                stage.initOwner(tableView.getScene().getWindow());
+                stage.setOnHidden(event -> {
+                    //setonHidden
+                });
+                stage.showAndWait();
+                return true;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
+        else {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Search for this table is unacceptable");
+            alert.setHeaderText("Attention");
+            alert.showAndWait();
+        }
+        return false;
     }
 
     public static void setMap(Map map) {

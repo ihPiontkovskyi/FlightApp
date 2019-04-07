@@ -1,11 +1,7 @@
 package utils;
 
 import lombok.experimental.UtilityClass;
-import models.Airport;
-import models.Board;
-import models.Client;
-import models.Flight;
-import models.Ticket;
+import models.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -38,6 +34,7 @@ public class HibernateSessionFactoryUtil {
             configuration.addAnnotatedClass(Client.class);
             configuration.addAnnotatedClass(Flight.class);
             configuration.addAnnotatedClass(Ticket.class);
+            configuration.addAnnotatedClass(FlightInfo.class);
             StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
             sessionFactory = configuration.buildSessionFactory(builder.build());
         } catch (Exception e) {

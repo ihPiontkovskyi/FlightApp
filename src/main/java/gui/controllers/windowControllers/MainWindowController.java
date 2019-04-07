@@ -6,8 +6,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import models.*;
 
+import javax.swing.*;
+
 
 public class MainWindowController {
+    private static TabPane mainPane_;
+    @FXML
+    private TableView flightInfoTable;
     @FXML
     private TabPane mainPane;
     @FXML
@@ -47,27 +52,34 @@ public class MainWindowController {
 
     @FXML
     public void initialize() {
+        mainPane_ = mainPane;
         controller = new AirportController(airportTable);
         airportTab.setOnSelectionChanged(event -> controller = new AirportController(airportTable));
         boardTab.setOnSelectionChanged(event -> controller = new BoardController(boardTable));
         clientTab.setOnSelectionChanged(event -> controller = new ClientController(clientTable));
         flightTab.setOnSelectionChanged(event -> controller = new FlightController(flightTable));
         ticketTab.setOnSelectionChanged(event -> controller = new TicketController(ticketTable));
+        flightInfoTab.setOnSelectionChanged(event -> controller = new FlightInfoController(flightInfoTable));
         addBtn.setOnAction(event -> controller.add());
         deleteBtn.setOnAction(event -> controller.delete());
         saveTableBtn.setOnAction(event -> controller.saveOrUpdate());
         searchBtn.setOnAction(event -> {
-            controller.startSearch();
-            ObservableList foundItems = controller.search();
-            if(foundItems.size() > 0)
-            {
-                controller.getTableView().getItems().clear();
-                controller.getTableView().getItems().addAll(foundItems);
+            if (controller.startSearch()) {
+                ObservableList foundItems = controller.search();
+                if (foundItems.size() > 0) {
+                    controller.getTableView().getItems().clear();
+                    controller.getTableView().getItems().addAll(foundItems);
+                }
             }
+            return;
         });
-        refreshBtn.setOnAction(event-> controller.refresh());
+        refreshBtn.setOnAction(event -> controller.refresh());
 
     }
 
+    public static String getSelectionModelTypeName()
+    {
+        return mainPane_.getSelectionModel().getSelectedItem().getId();
+    }
 }
 

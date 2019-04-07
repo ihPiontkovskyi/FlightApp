@@ -6,14 +6,11 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class SearchWindowController {
-    @FXML
-    private Button cancelBtn;
     @FXML
     private TextField classField;
     @FXML
@@ -51,18 +48,19 @@ public class SearchWindowController {
         setMap();
         startSearch.setOnAction(event -> {
             BaseController.setMap(resultMap);
-            ((Node)event.getSource()).getScene().getWindow().hide();
+            ((Node) event.getSource()).getScene().getWindow().hide();
         });
     }
 
     private void setAction(TextField field, String column) {
-        field.textProperty().addListener((observable,oldValue,newValue) -> {
-                if (!newValue.trim().equals("")) {
-                    resultMap.put(column, newValue);
-                } else resultMap.remove(column);
+        field.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.trim().equals("")) {
+                resultMap.put(column, newValue);
+            } else resultMap.remove(column);
 
         });
     }
+
     private void setDateAction(DatePicker picker, String column) {
         picker.setOnAction(t -> {
             if (!resultMap.containsKey(column)) {
@@ -72,9 +70,9 @@ public class SearchWindowController {
             }
         });
     }
-    private void setMap()
-    {
-        if(BaseController.getType().equals("Flight")) {
+
+    private void setMap() {
+        if (MainWindowController.getSelectionModelTypeName().equals("Flight")) {
             fieldMap = new HashMap<String, TextField>() {
                 {
                     put("boards.tickets.classType", classField);
@@ -95,7 +93,7 @@ public class SearchWindowController {
             setDateAction(purchaseField, "boards.tickets.datePurchase");
             setDateAction(lastRepairField, "boards.lastRepair");
         }
-        if(BaseController.getType().equals("Boards")) {
+        if (MainWindowController.getSelectionModelTypeName().equals("Board")) {
             fieldMap = new HashMap<String, TextField>() {
                 {
                     put("tickets.classType", classField);
@@ -116,7 +114,7 @@ public class SearchWindowController {
             setDateAction(purchaseField, "tickets.datePurchase");
             setDateAction(lastRepairField, "lastRepair");
         }
-        if(BaseController.getType().equals("Ticket")) {
+        if (MainWindowController.getSelectionModelTypeName().equals("Ticket")) {
             fieldMap = new HashMap<String, TextField>() {
                 {
                     put("classType", classField);
@@ -137,26 +135,26 @@ public class SearchWindowController {
             setDateAction(purchaseField, "datePurchase");
             setDateAction(lastRepairField, "board.lastRepair");
         }
-        if(BaseController.getType().equals("Client")) {
+        if (MainWindowController.getSelectionModelTypeName().equals("Client")) {
             fieldMap = new HashMap<String, TextField>() {
                 {
-                    put("boards.tickets.classType", classField);
+                    put("tickets.classType", classField);
                     put("passportID", passportField);
                     put("lastName", lastNameField);
                     put("firstName", firstNameField);
-                    put("boards.freeSeat", freeSeatField);
-                    put("boards.jetType", jetTypeField);
-                    put("boards.flights.duration", timeField);
-                    put("boards.flights.destination.city", cityField);
-                    put("boards.tickets.price", priceField);
-                    put("boards.flights.destination.airportCode", codeField);
+                    put("tickets.board.freeSeat", freeSeatField);
+                    put("tickets.board.jetType", jetTypeField);
+                    put("tickets.board.flights.duration", timeField);
+                    put("tickets.board.flights.destination.city", cityField);
+                    put("tickets.board.tickets.price", priceField);
+                    put("tickets.board.flights.destination.airportCode", codeField);
 
                 }
             };
             fieldMap.forEach((k, v) -> setAction(v, k));
-            setDateAction(flightDateField, "boards.flights.date");
-            setDateAction(purchaseField, "boards.tickets.datePurchase");
-            setDateAction(lastRepairField, "boards.lastRepair");
+            setDateAction(flightDateField, "tickets.board.flights.date");
+            setDateAction(purchaseField, "tickets.board.tickets.datePurchase");
+            setDateAction(lastRepairField, "tickets.board.lastRepair");
         }
     }
 }
