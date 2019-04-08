@@ -46,8 +46,9 @@ public class DaoImpl<T> implements Dao<T> {
             tx1.commit();
         });
     }
-    public ObservableList search(Map fieldValue) {
-        final Set<T> result = new HashSet<T>();
+
+    public ObservableList search(Map fieldValue, Class aClass) {
+        final Set<T> result = new HashSet<>();
 
         HibernateSessionFactoryUtil.doInHibernateSession(session -> {
             Transaction transaction = null;

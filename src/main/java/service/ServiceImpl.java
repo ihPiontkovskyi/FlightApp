@@ -26,8 +26,8 @@ public class ServiceImpl<T> implements Service<T> {
         dao.saveOrUpdate(t);
     }
 
-    public ObservableList search(Map map) {
-        return dao.search(map);
+    public ObservableList search(Map map, Class aClass) {
+        return dao.search(map, aClass);
     }
 }
 

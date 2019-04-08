@@ -1,8 +1,6 @@
 package gui.controllers.modelControllers;
 
-import gui.controllers.tableCellComponent.EditingCell;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import gui.controllers.customObjects.EditingCell;
 import javafx.event.EventHandler;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -26,6 +24,11 @@ public class AirportController extends BaseController {
         Airport airport = new Airport();
         tableView.getItems().add(airport);
         changedList.add(airport);
+    }
+
+    @Override
+    public Class getEntity() {
+        return Airport.class;
     }
 
     private void setDynamicColumn() {

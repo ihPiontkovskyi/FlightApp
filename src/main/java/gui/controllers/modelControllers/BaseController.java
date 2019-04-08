@@ -133,7 +133,7 @@ public abstract class BaseController {
     }
 
     public ObservableList search() {
-        return service.search(fieldValue);
+        return service.search(fieldValue, getEntity());
     }
 
     public void refresh() {
@@ -141,4 +141,11 @@ public abstract class BaseController {
         tableView.setItems(service.findAll(tableView.getId()));
         changedList.clear();
     }
+
+    public abstract Class getEntity();
+
+    public static void clearList() {
+        changedList.clear();
+    }
+
 }

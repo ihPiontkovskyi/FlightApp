@@ -13,5 +13,5 @@ public interface Service<T> {
 
 	void saveOrUpdate(ObservableList set);
 
-	ObservableList search(Map map);
+	ObservableList search(Map map, Class aClass);
 }

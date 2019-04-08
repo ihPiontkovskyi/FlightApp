@@ -13,7 +13,7 @@ public interface Dao<T> {
 
 	void saveOrUpdate(ObservableList t);
 
-	ObservableList search(Map fieldValue);
+	ObservableList search(Map fieldValue, Class aClass);
 
 }
 
