@@ -1,4 +1,4 @@
-package gui.controllers.tableCellComponent;
+package gui.controllers.customObjects;
 
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TextField;
@@ -55,7 +55,7 @@ public class EditingCell<T, S> extends TableCell<T, S> {
         textField.setOnKeyReleased(t -> {
             if (t.getCode() == KeyCode.ENTER) {
                 String value = textField.getText();
-                if (value != null) {
+                if (value != null && !value.equals("")) {
                     commitEdit((S) value);
             } else {
                 commitEdit(null);

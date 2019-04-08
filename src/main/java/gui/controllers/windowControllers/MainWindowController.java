@@ -3,10 +3,11 @@ package gui.controllers.windowControllers;
 import gui.controllers.modelControllers.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TableView;
 import models.*;
-
-import javax.swing.*;
 
 
 public class MainWindowController {
@@ -66,19 +67,20 @@ public class MainWindowController {
         searchBtn.setOnAction(event -> {
             if (controller.startSearch()) {
                 ObservableList foundItems = controller.search();
-                if (foundItems.size() > 0) {
-                    controller.getTableView().getItems().clear();
-                    controller.getTableView().getItems().addAll(foundItems);
-                }
+                controller.getTableView().getItems().clear();
+                controller.getTableView().getItems().addAll(foundItems);
+                BaseController.clearList();
             }
             return;
         });
-        refreshBtn.setOnAction(event -> controller.refresh());
+        refreshBtn.setOnAction(event -> {
+            controller.refresh();
+            BaseController.clearList();
+        });
 
     }
 
-    public static String getSelectionModelTypeName()
-    {
+    public static String getSelectionModelTypeName() {
         return mainPane_.getSelectionModel().getSelectedItem().getId();
     }
 }

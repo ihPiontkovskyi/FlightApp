@@ -1,4 +1,4 @@
-package gui.controllers.tableCellComponent;
+package gui.controllers.customObjects;
 
 import javafx.collections.ObservableList;
 import javafx.scene.control.ComboBox;
@@ -59,10 +59,6 @@ public class ComboBoxCell<T,S> extends TableCell<T, S> {
         comboBox.setItems(list);
         if(getItem() != null) {
             comboBox.getSelectionModel().select(getItem());
-        }
-        else
-        {
-            comboBox.getSelectionModel().select(0);
         }
         comboBox.setMinWidth(this.getWidth() - this.getGraphicTextGap()*2);
         comboBox.setOnKeyPressed(t -> {

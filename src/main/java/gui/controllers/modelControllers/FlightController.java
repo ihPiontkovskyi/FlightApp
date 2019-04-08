@@ -1,10 +1,8 @@
 package gui.controllers.modelControllers;
 
-import gui.controllers.tableCellComponent.ComboBoxCell;
-import gui.controllers.tableCellComponent.DateEditingCell;
-import gui.controllers.tableCellComponent.TimeSpinnerCell;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import gui.controllers.customObjects.ComboBoxCell;
+import gui.controllers.customObjects.DateEditingCell;
+import gui.controllers.customObjects.TimeSpinnerCell;
 import javafx.event.EventHandler;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -33,7 +31,7 @@ public class FlightController extends BaseController {
     public void add() {
         Flight flight = new Flight();
         tableView.getItems().add(flight);
-        changedSet.add(flight);
+        changedList.add(flight);
     }
 
     @Override
@@ -43,13 +41,16 @@ public class FlightController extends BaseController {
 
     private void setDynamicColumn() {
         tableView.getColumns().clear();
+        TableColumn flightNumber = new TableColumn("Flight number");
+        flightNumber.setCellValueFactory(new PropertyValueFactory<Flight, Integer>("flightID"));
+        flightNumber.editableProperty().setValue(false);
         TableColumn flightDateColumn = new TableColumn("Date");
         flightDateColumn.setMinWidth(100);
         flightDateColumn.setCellValueFactory(new PropertyValueFactory<Flight, Date>("date"));
         flightDateColumn.setCellFactory(p -> new DateEditingCell<Flight, java.util.Date>());
         flightDateColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Flight, java.util.Date>>) t -> {
             t.getRowValue().setDate(Date.valueOf(t.getNewValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));
-            changedSet.add(t.getRowValue());
+            changedList.add(t.getRowValue());
         });
         TableColumn flightDurationColumn = new TableColumn("Duration");
         flightDurationColumn.setMinWidth(100);
@@ -57,7 +58,7 @@ public class FlightController extends BaseController {
         flightDurationColumn.setCellFactory(p -> new TimeSpinnerCell<Flight, Time>());
         flightDurationColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Flight, LocalTime>>) t -> {
             t.getRowValue().setDuration(Time.valueOf(t.getNewValue()));
-            changedSet.add(t.getRowValue());
+            changedList.add(t.getRowValue());
         });
         TableColumn flightDestinationColumn = new TableColumn("Destination");
         flightDestinationColumn.setMinWidth(100);
@@ -65,7 +66,7 @@ public class FlightController extends BaseController {
         flightDestinationColumn.setCellFactory(p -> new ComboBoxCell<Flight, Airport>(new ServiceImpl<Airport>().findAll("Airport")));
         flightDestinationColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Flight, Airport>>) t -> {
             t.getRowValue().setDestination(t.getNewValue());
-            changedSet.add(t.getRowValue());
+            changedList.add(t.getRowValue());
         });
         TableColumn flightDepartureColumn = new TableColumn("Departure");
         flightDepartureColumn.setMinWidth(100);
@@ -73,8 +74,8 @@ public class FlightController extends BaseController {
         flightDepartureColumn.setCellFactory(p -> new ComboBoxCell<Flight, Airport>(new ServiceImpl<Airport>().findAll("Airport")));
         flightDepartureColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Flight, Airport>>) t -> {
             t.getRowValue().setDeparture(t.getNewValue());
-            changedSet.add(t.getRowValue());
+            changedList.add(t.getRowValue());
         });
-        tableView.getColumns().addAll(flightDestinationColumn, flightDepartureColumn,flightDurationColumn, flightDateColumn);
+        tableView.getColumns().addAll(flightNumber,flightDestinationColumn, flightDepartureColumn,flightDurationColumn, flightDateColumn);
     }
 }

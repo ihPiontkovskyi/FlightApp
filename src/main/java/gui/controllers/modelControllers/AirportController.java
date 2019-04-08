@@ -25,7 +25,7 @@ public class AirportController extends BaseController {
     public void add() {
         Airport airport = new Airport();
         tableView.getItems().add(airport);
-        changedSet.add(airport);
+        changedList.add(airport);
     }
 
     private void setDynamicColumn() {
@@ -36,7 +36,7 @@ public class AirportController extends BaseController {
         airportCodeColumn.setCellFactory(p -> new EditingCell<Airport, String>());
         airportCodeColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Airport, String>>) t -> {
             t.getRowValue().setAirportCode(t.getNewValue());
-            changedSet.add(t.getRowValue());
+            changedList.add(t.getRowValue());
         });
         TableColumn city = new TableColumn("City");
         city.setMinWidth(100);
@@ -44,7 +44,7 @@ public class AirportController extends BaseController {
         city.setCellFactory(p -> new EditingCell<Airport, String>());
         city.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Airport, String>>) t -> {
             t.getRowValue().setCity(t.getNewValue());
-            changedSet.add(t.getRowValue());
+            changedList.add(t.getRowValue());
         });
        tableView.getColumns().addAll(airportCodeColumn, city);
     }

@@ -1,18 +1,29 @@
 package gui.controllers.windowControllers;
 
+import com.sun.javafx.scene.control.skin.DatePickerContent;
+import com.sun.javafx.scene.control.skin.DatePickerSkin;
 import gui.controllers.modelControllers.BaseController;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.text.Text;
+import javafx.util.StringConverter;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class SearchWindowController {
-    @FXML
-    private TextField classField;
+    private DateCell iniCell=null;
+    private DateCell endCell=null;
+    private LocalDate iniDate;
+    private LocalDate endDate;
+    final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ENGLISH);
     @FXML
     private TextField passportField;
     @FXML
@@ -26,11 +37,9 @@ public class SearchWindowController {
     @FXML
     private TextField jetTypeField;
     @FXML
+    private ComboBox classField;
+    @FXML
     private TextField timeField;
-    @FXML
-    private TextField codeField;
-    @FXML
-    private TextField cityField;
     @FXML
     private Button startSearch;
     @FXML
@@ -39,6 +48,14 @@ public class SearchWindowController {
     private DatePicker flightDateField;
     @FXML
     private TextField priceField;
+    @FXML
+    private TextField destinationFieldCode;
+    @FXML
+    private TextField destinationFieldCity;
+    @FXML
+    private TextField departureFieldCode;
+    @FXML
+    private TextField departureFieldCity;
 
     private Map<String, String> resultMap = new HashMap<>();
     private Map<String, TextField> fieldMap;
@@ -46,9 +63,24 @@ public class SearchWindowController {
     @FXML
     public void initialize() {
         setMap();
+        classField.getItems().addAll("Economy","Standard","Business");
         startSearch.setOnAction(event -> {
             BaseController.setMap(resultMap);
             ((Node) event.getSource()).getScene().getWindow().hide();
+        });
+        classField.setOnAction(event -> {
+            if (MainWindowController.getSelectionModelTypeName().equals("Flight")) {
+                resultMap.put("fromFlightToBoard.tickets.classType", classField.getValue().toString());
+            }
+            if (MainWindowController.getSelectionModelTypeName().equals("Board")) {
+               resultMap.put("tickets.classType", classField.getValue().toString());
+            }
+            if (MainWindowController.getSelectionModelTypeName().equals("Client")) {
+                resultMap.put("tickets.classType", classField.getValue().toString());
+            }
+            if (MainWindowController.getSelectionModelTypeName().equals("Ticket")) {
+                resultMap.put("tickets.classType", classField.getValue().toString());
+            }
         });
     }
 
@@ -61,12 +93,110 @@ public class SearchWindowController {
         });
     }
 
-    private void setDateAction(DatePicker picker, String column) {
-        picker.setOnAction(t -> {
-            if (!resultMap.containsKey(column)) {
-                resultMap.put(column, t.toString());
-            } else {
-                resultMap.replace(column, t.toString());
+    private void setDateAction(DatePicker datePicker, String column) {
+        datePicker.setConverter(new StringConverter<LocalDate>() {
+
+            @Override
+            public String toString(LocalDate object) {
+                if(iniDate!=null && endDate!=null){
+                    return iniDate.format(formatter)+" - "+endDate.format(formatter);
+                }
+                return "";
+            }
+
+            @Override
+            public LocalDate fromString(String string) {
+                if(string.contains("-")){
+                    try{
+                        iniDate=LocalDate.parse(string.split("-")[0].trim(), formatter);
+                        endDate=LocalDate.parse(string.split("-")[1].trim(), formatter);
+                    } catch(DateTimeParseException dte){
+                        return LocalDate.parse(string, formatter);
+                    }
+                    return iniDate;
+                }
+                return LocalDate.parse(string, formatter);
+            }
+        });
+        datePicker.showingProperty().addListener((obs,b,b1)->{
+            if(b1){
+                datePicker.setValue(LocalDate.now());
+                DatePickerContent content = (DatePickerContent)((DatePickerSkin)datePicker.getSkin()).getPopupContent();
+
+                List<DateCell> cells = content.lookupAll(".day-cell").stream()
+                        .filter(ce->!ce.getStyleClass().contains("next-month"))
+                        .map(n->(DateCell)n)
+                        .collect(Collectors.toList());
+
+                // select initial range
+                if(iniDate!=null && endDate!=null){
+                    int ini=iniDate.getDayOfMonth();
+                    int end=endDate.getDayOfMonth();
+                    cells.stream()
+                            .forEach(ce->ce.getStyleClass().remove("selected"));
+                    cells.stream()
+                            .filter(ce->Integer.parseInt(ce.getText())>=ini)
+                            .filter(ce->Integer.parseInt(ce.getText())<=end)
+                            .forEach(ce->ce.getStyleClass().add("selected"));
+                }
+                iniCell=null;
+                endCell=null;
+                content.setOnMouseDragged(e->{
+                    Node n=e.getPickResult().getIntersectedNode();
+                    DateCell c=null;
+                    if(n instanceof DateCell){
+                        c=(DateCell)n;
+                    } else if(n instanceof Text){
+                        c=(DateCell)(n.getParent());
+                    }
+                    if(c!=null && c.getStyleClass().contains("day-cell") &&
+                            !c.getStyleClass().contains("next-month")){
+                        if(iniCell==null){
+                            iniCell=c;
+                        }
+                        endCell=c;
+                    }
+                    if(iniCell!=null && endCell!=null){
+                        int ini=(int)Math.min(Integer.parseInt(iniCell.getText()),
+                                Integer.parseInt(endCell.getText()));
+                        int end=(int)Math.max(Integer.parseInt(iniCell.getText()),
+                                Integer.parseInt(endCell.getText()));
+                        cells.stream()
+                                .forEach(ce->ce.getStyleClass().remove("selected"));
+                        cells.stream()
+                                .filter(ce->Integer.parseInt(ce.getText())>=ini)
+                                .filter(ce->Integer.parseInt(ce.getText())<=end)
+                                .forEach(ce->ce.getStyleClass().add("selected"));
+                    }
+                });
+                content.setOnMouseReleased(e->{
+                    if(iniCell!=null && endCell!=null){
+                        iniDate=LocalDate.of(datePicker.getValue().getYear(),
+                                datePicker.getValue().getMonth(),
+                                Integer.parseInt(iniCell.getText()));
+                        endDate=LocalDate.of(datePicker.getValue().getYear(),
+                                datePicker.getValue().getMonth(),
+                                Integer.parseInt(endCell.getText()));
+                        System.out.println("Selection from "+iniDate+" to "+endDate);
+                        if (!resultMap.containsKey(column)) {
+                            resultMap.put(column, iniDate.toString()+" / " +endDate.toString());
+                        } else {
+                            resultMap.replace(column, iniDate.toString()+" / " +endDate.toString());
+                        }
+
+                        datePicker.setValue(iniDate);
+                        int ini=iniDate.getDayOfMonth();
+                        int end=endDate.getDayOfMonth();
+                        cells.stream()
+                                .forEach(ce->ce.getStyleClass().remove("selected"));
+                        cells.stream()
+                                .filter(ce->Integer.parseInt(ce.getText())>=ini)
+                                .filter(ce->Integer.parseInt(ce.getText())<=end)
+                                .forEach(ce->ce.getStyleClass().add("selected"));
+                    }
+                    endCell=null;
+                    iniCell=null;
+                });
             }
         });
     }
@@ -75,59 +205,61 @@ public class SearchWindowController {
         if (MainWindowController.getSelectionModelTypeName().equals("Flight")) {
             fieldMap = new HashMap<String, TextField>() {
                 {
-                    put("boards.tickets.classType", classField);
-                    put("boards.clients.passportID", passportField);
-                    put("boards.clients.lastName", lastNameField);
-                    put("boards.clients.firstName", firstNameField);
-                    put("boards.freeSeat", freeSeatField);
-                    put("boards.jetType", jetTypeField);
+                    put("fromFlightToBoard.fromBoardToClient.passportID", passportField);
+                    put("fromFlightToBoard.fromBoardToClient.lastName", lastNameField);
+                    put("fromFlightToBoard.fromBoardToClient.firstName", firstNameField);
+                    put("fromFlightToBoard.freeSeat", freeSeatField);
+                    put("fromFlightToBoard.jetType", jetTypeField);
                     put("duration", timeField);
-                    put("destination.city", cityField);
-                    put("boards.tickets.price", priceField);
-                    put("destination.airportCode", codeField);
+                    put("destination.city", destinationFieldCity);
+                    put("fromFlightToBoard.tickets.price", priceField);
+                    put("destination.airportCode", destinationFieldCode);
+                    put("flights.departure.airportCode", departureFieldCode);
+                    put("flights.departure.city", departureFieldCity);
 
                 }
             };
             fieldMap.forEach((k, v) -> setAction(v, k));
             setDateAction(flightDateField, "date");
-            setDateAction(purchaseField, "boards.tickets.datePurchase");
-            setDateAction(lastRepairField, "boards.lastRepair");
+            setDateAction(purchaseField, "fromFlightToBoard.tickets.datePurchase");
+            setDateAction(lastRepairField, "fromFlightToBoard.lastRepair");
         }
         if (MainWindowController.getSelectionModelTypeName().equals("Board")) {
             fieldMap = new HashMap<String, TextField>() {
                 {
-                    put("tickets.classType", classField);
-                    put("clients.passportID", passportField);
-                    put("clients.lastName", lastNameField);
-                    put("clients.firstName", firstNameField);
+                    put("fromBoardToClient.passportID", passportField);
+                    put("fromBoardToClient.lastName", lastNameField);
+                    put("fromBoardToClient.firstName", firstNameField);
                     put("freeSeat", freeSeatField);
                     put("jetType", jetTypeField);
-                    put("flights.duration", timeField);
-                    put("flights.destination.city", cityField);
+                    put("fromBoardToFlight.duration", timeField);
+                    put("fromBoardToFlight.destination.city", destinationFieldCity);
                     put("tickets.price", priceField);
-                    put("flights.destination.airportCode", codeField);
+                    put("fromBoardToFlight.destination.airportCode", destinationFieldCode);
+                    put("fromBoardToFlight.departure.airportCode", departureFieldCode);
+                    put("fromBoardToFlight.departure.city", departureFieldCity);
 
                 }
             };
             fieldMap.forEach((k, v) -> setAction(v, k));
-            setDateAction(flightDateField, "flights.date");
+            setDateAction(flightDateField, "fromBoardToFlight.date");
             setDateAction(purchaseField, "tickets.datePurchase");
             setDateAction(lastRepairField, "lastRepair");
         }
         if (MainWindowController.getSelectionModelTypeName().equals("Ticket")) {
             fieldMap = new HashMap<String, TextField>() {
                 {
-                    put("classType", classField);
-                    put("board.clients.passportID", passportField);
-                    put("board.clients.lastName", lastNameField);
-                    put("board.clients.firstName", firstNameField);
+                    put("client.passportID", passportField);
+                    put("client.lastName", lastNameField);
+                    put("client.firstName", firstNameField);
                     put("board.freeSeat", freeSeatField);
                     put("board.jetType", jetTypeField);
-                    put("board.flights.duration", timeField);
-                    put("board.flights.destination.city", cityField);
+                    put("board.fromBoardToFlight.duration", timeField);
+                    put("board.fromBoardToFlight.destination.city", destinationFieldCity);
                     put("price", priceField);
-                    put("board.flights.destination.airportCode", codeField);
-
+                    put("board.fromBoardToFlight.destination.airportCode", destinationFieldCode);
+                    put("board.fromBoardToFlight.departure.airportCode", departureFieldCode);
+                    put("board.fromBoardToFlight.departure.city", departureFieldCity);
                 }
             };
             fieldMap.forEach((k, v) -> setAction(v, k));
@@ -138,23 +270,23 @@ public class SearchWindowController {
         if (MainWindowController.getSelectionModelTypeName().equals("Client")) {
             fieldMap = new HashMap<String, TextField>() {
                 {
-                    put("tickets.classType", classField);
                     put("passportID", passportField);
                     put("lastName", lastNameField);
                     put("firstName", firstNameField);
-                    put("tickets.board.freeSeat", freeSeatField);
-                    put("tickets.board.jetType", jetTypeField);
-                    put("tickets.board.flights.duration", timeField);
-                    put("tickets.board.flights.destination.city", cityField);
-                    put("tickets.board.tickets.price", priceField);
-                    put("tickets.board.flights.destination.airportCode", codeField);
-
+                    put("fromClientToBoard.freeSeat", freeSeatField);
+                    put("fromClientToBoard.jetType", jetTypeField);
+                    put("fromClientToBoard.fromBoardToFlight.duration", timeField);
+                    put("fromClientToBoard.fromBoardToFlight.destination.city", destinationFieldCity);
+                    put("tickets.price", priceField);
+                    put("fromClientToBoard.fromBoardToFlight.destination.airportCode", destinationFieldCode);
+                    put("fromClientToBoard.fromBoardToFlight.departure.airportCode", departureFieldCode);
+                    put("fromClientToBoard.fromBoardToFlight.departure.city", departureFieldCity);
                 }
             };
             fieldMap.forEach((k, v) -> setAction(v, k));
-            setDateAction(flightDateField, "tickets.board.flights.date");
-            setDateAction(purchaseField, "tickets.board.tickets.datePurchase");
-            setDateAction(lastRepairField, "tickets.board.lastRepair");
+            setDateAction(flightDateField, "fromClientToBoard.fromBoardToFlight.date");
+            setDateAction(purchaseField, "tickets.datePurchase");
+            setDateAction(lastRepairField, "fromClientToBoard.lastRepair");
         }
     }
 }

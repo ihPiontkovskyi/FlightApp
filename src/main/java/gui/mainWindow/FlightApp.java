@@ -3,6 +3,7 @@ package gui.mainWindow;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -20,6 +21,7 @@ public class FlightApp extends Application {
 		Scene scene = new Scene(anchorPane, 600, 400);
 		primaryStage.setTitle("FlightDatabaseApp");
 		primaryStage.setScene(scene);
+		primaryStage.getIcons().add(new Image("icons/flight.png"));
 		primaryStage.show();
 	}
 }

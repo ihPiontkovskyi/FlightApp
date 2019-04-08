@@ -24,12 +24,12 @@ public class Flight implements BaseModel {
     @DateBridge(resolution = Resolution.DAY)
     private Date date;
 
-    @IndexedEmbedded
+    @IndexedEmbedded(depth = 1)
     @OneToOne
     @JoinColumn(name = "destination")
     private Airport destination;
 
-    @IndexedEmbedded
+    @IndexedEmbedded(depth = 1)
     @OneToOne
     @JoinColumn(name = "departure")
     private Airport departure;
@@ -41,9 +41,11 @@ public class Flight implements BaseModel {
             joinColumns = {@JoinColumn(name = "flight")},
             inverseJoinColumns = {@JoinColumn(name = "board")}
     )
-    private List<Board> boards;
+    private List<Board> fromFlightToBoard;
 
-
+    @ContainedIn
+    @ManyToMany(mappedBy = "fromBoardToFlight")
+    private List<Board> fromBoard;
 
 
     @Override

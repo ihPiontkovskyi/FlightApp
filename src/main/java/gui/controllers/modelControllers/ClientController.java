@@ -1,8 +1,6 @@
 package gui.controllers.modelControllers;
 
-import gui.controllers.tableCellComponent.EditingCell;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import gui.controllers.customObjects.EditingCell;
 import javafx.event.EventHandler;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -25,7 +23,7 @@ public class ClientController extends BaseController {
     public void add() {
         Client client = new Client();
         tableView.getItems().add(client);
-        changedSet.add(client);
+        changedList.add(client);
     }
 
     @Override
@@ -41,7 +39,7 @@ public class ClientController extends BaseController {
         clientFirstNameColumn.setCellFactory(p -> new EditingCell<Client, String>());
         clientFirstNameColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Client, String>>) t -> {
             t.getRowValue().setFirstName(t.getNewValue());
-            changedSet.add(t.getRowValue());
+            changedList.add(t.getRowValue());
         });
         TableColumn clientLastNameColumn = new TableColumn("Last name");
         clientLastNameColumn.setMinWidth(100);
@@ -49,7 +47,7 @@ public class ClientController extends BaseController {
         clientLastNameColumn.setCellFactory(p -> new EditingCell<Client, String>());
         clientLastNameColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Client, String>>) t -> {
             t.getRowValue().setLastName(t.getNewValue());
-            changedSet.add(t.getRowValue());
+            changedList.add(t.getRowValue());
         });
         TableColumn clientPassportIDColumn = new TableColumn("Passport ID");
         clientPassportIDColumn.setMinWidth(100);
@@ -57,7 +55,7 @@ public class ClientController extends BaseController {
         clientPassportIDColumn.setCellFactory(p -> new EditingCell<Client, String>());
         clientPassportIDColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Client, String>>) t -> {
             t.getRowValue().setPassportID(t.getNewValue());
-            changedSet.add(t.getRowValue());
+            changedList.add(t.getRowValue());
         });
         tableView.getColumns().addAll(clientFirstNameColumn, clientLastNameColumn, clientPassportIDColumn);
     }

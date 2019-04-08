@@ -1,4 +1,4 @@
-package gui.controllers.tableCellComponent;
+package gui.controllers.customObjects;
 
 import javafx.application.Platform;
 import javafx.event.Event;

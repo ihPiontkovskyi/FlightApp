@@ -3,64 +3,85 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.windowControllers.MainWindowController">
-    <TabPane fx:id="mainPane" layoutY="40.0" prefHeight="359.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controllers.windowControllers.MainWindowController">
+    <TabPane fx:id="mainPane" layoutY="40.0" prefHeight="359.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
         <Tab id="Airport" fx:id="airportTab" text="Airport">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                <TableView id="Airport" fx:id="airportTable" editable="true" layoutY="1.0" prefHeight="331.0" prefWidth="600.0" AnchorPane.topAnchor="9.0">
+                <TableView id="Airport" fx:id="airportTable" editable="true" layoutY="1.0" prefHeight="331.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 </TableView>
             </AnchorPane>
         </Tab>
         <Tab id="Flight" fx:id="flightTab" text="Flight">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                <TableView id="Flight" fx:id="flightTable" editable="true" prefHeight="331.0" prefWidth="600.0">
-                    <columns>
-                        <TableColumn prefWidth="75.0" text="Flight number">
-                            <cellValueFactory>
-                                <PropertyValueFactory property="flightID" />
-                            </cellValueFactory>
-                        </TableColumn>
-                    </columns>
+                <TableView id="Flight" fx:id="flightTable" editable="true" prefHeight="331.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 </TableView>
             </AnchorPane>
         </Tab>
         <Tab id="Client" fx:id="clientTab" text="Client">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                <TableView id="Client" fx:id="clientTable" editable="true" prefHeight="331.0" prefWidth="600.0" />
+                <TableView id="Client" fx:id="clientTable" editable="true" prefHeight="331.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
             </AnchorPane>
         </Tab>
         <Tab id="Board" fx:id="boardTab" text="Board">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                <TableView id="Board" fx:id="boardTable" editable="true" prefHeight="331.0" prefWidth="600.0">
-                    <columns>
-                        <TableColumn prefWidth="75.0" text="Board number">
-                            <cellValueFactory>
-                                <PropertyValueFactory property="boardID" />
-                            </cellValueFactory>
-                        </TableColumn>
-                    </columns>
+                <TableView id="Board" fx:id="boardTable" editable="true" prefHeight="331.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                 </TableView>
             </AnchorPane>
         </Tab>
         <Tab id="Ticket" fx:id="ticketTab" text="Ticket">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                <TableView id="Ticket" fx:id="ticketTable" editable="true" prefHeight="331.0" prefWidth="600.0" />
+                <TableView id="Ticket" fx:id="ticketTable" editable="true" prefHeight="331.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
             </AnchorPane>
         </Tab>
         <Tab id="FlightInfo" fx:id="flightInfoTab" text="FlightInfo">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-            <TableView id="FlightInfo" fx:id="flightInfoTable" editable="true" prefHeight="331.0" prefWidth="600.0" />
+            <TableView id="FlightInfo" fx:id="flightInfoTable" editable="true" prefHeight="331.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
         </AnchorPane>
         </Tab>
     </TabPane>
-    <Button fx:id="searchBtn" layoutX="210.0" layoutY="9.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="57.0" text="Search" AnchorPane.topAnchor="9.0" />
-    <Button fx:id="saveTableBtn" layoutX="129.0" layoutY="9.0" mnemonicParsing="false" text="Save table" AnchorPane.topAnchor="9.0" />
-    <Button fx:id="deleteBtn" layoutX="64.0" layoutY="9.0" mnemonicParsing="false" text="Delete" AnchorPane.topAnchor="9.0" />
-    <Button fx:id="addBtn" layoutX="14.0" layoutY="9.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="38.0" text="Add" AnchorPane.topAnchor="9.0" />
-   <Button fx:id="refreshBtn" layoutX="274.0" layoutY="9.0" mnemonicParsing="false" text="Refresh" />
+    <Button fx:id="searchBtn" layoutX="154.0" layoutY="6.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="42.0" style="-fx-background-color: #ffffff; -fx-border-color: #000;" AnchorPane.topAnchor="6.0">
+      <graphic>
+         <ImageView fitHeight="19.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../icons/search.png" />
+            </image>
+         </ImageView>
+      </graphic></Button>
+    <Button fx:id="saveTableBtn" layoutX="105.0" layoutY="5.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="42.0" style="-fx-background-color: #ffffff; -fx-border-color: #000;" AnchorPane.topAnchor="5.0">
+      <graphic>
+         <ImageView fitHeight="20.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../icons/save.png" />
+            </image>
+         </ImageView>
+      </graphic></Button>
+    <Button fx:id="deleteBtn" layoutX="56.0" layoutY="5.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="42.0" style="-fx-background-color: #ffffff; -fx-border-color: #000;" AnchorPane.topAnchor="5.0">
+      <graphic>
+         <ImageView fitHeight="18.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../icons/delete.png" />
+            </image>
+         </ImageView>
+      </graphic></Button>
+    <Button fx:id="addBtn" layoutX="7.0" layoutY="5.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="42.0" style="-fx-background-color: #ffffff; -fx-border-color: #000;" AnchorPane.topAnchor="5.0">
+      <graphic>
+         <ImageView fitHeight="19.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../icons/add.png" />
+            </image>
+         </ImageView>
+      </graphic></Button>
+   <Button fx:id="refreshBtn" layoutX="203.0" layoutY="6.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="42.0" style="-fx-background-color: #ffffff; -fx-border-color: #000;">
+      <graphic>
+         <ImageView fitHeight="40.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../icons/refresh.png" />
+            </image>
+         </ImageView>
+      </graphic></Button>
 </AnchorPane>

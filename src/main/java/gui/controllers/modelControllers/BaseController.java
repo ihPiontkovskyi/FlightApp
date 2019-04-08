@@ -2,14 +2,17 @@ package gui.controllers.modelControllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import lombok.Data;
 import models.Airport;
 import models.BaseModel;
@@ -18,25 +21,25 @@ import service.Service;
 
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @Data
 public abstract class BaseController {
-    static ObservableList<BaseModel> changedSet = FXCollections.observableArrayList();
+    static ObservableList<BaseModel> changedList = FXCollections.observableArrayList();
     TableView tableView = new TableView();
     static Service service = null;
     static Map fieldValue = null;
+    private boolean closingByUser = false;
 
     public abstract void add();
 
     public void saveOrUpdate() {
-        service.saveOrUpdate(changedSet);
+        service.saveOrUpdate(changedList);
         if (service.findAll(tableView.getId()).size() != tableView.getItems().size()) {
             Alert alert_ = new Alert(Alert.AlertType.ERROR, "An exception occurred!");
             alert_.setHeaderText("Error");
             alert_.showAndWait();
         } else {
-            changedSet.clear();
+            changedList.clear();
         }
     }
 
@@ -51,13 +54,13 @@ public abstract class BaseController {
             if (!tableView.getSelectionModel().isEmpty()) {
                 service.delete(tableView.getSelectionModel().getSelectedItem());
                 ObservableList<BaseModel> forDelete = FXCollections.observableArrayList();
-                changedSet.forEach(e -> {
+                changedList.forEach(e -> {
                     if (e.equals(tableView.getSelectionModel().getSelectedItem())
                     ) {
                         forDelete.add(e);
                     }
                 });
-                changedSet.removeAll(forDelete);
+                changedList.removeAll(forDelete);
                 tableView.setItems(service.findAll(tableView.getId()));
                 tableView.getItems().remove(tableView.getSelectionModel().getSelectedItem());
             } else {
@@ -70,7 +73,7 @@ public abstract class BaseController {
     }
 
     private boolean isEmpty() {
-        return changedSet.size() == 0;
+        return changedList.size() == 0;
     }
 
     private void confirmation() {
@@ -83,7 +86,7 @@ public abstract class BaseController {
         if (result.get() == buttonTypeSave) {
             saveOrUpdate();
         }
-        changedSet.clear();
+        changedList.clear();
     }
 
     void checkSet() {
@@ -93,7 +96,10 @@ public abstract class BaseController {
     }
 
     public boolean startSearch() {
-        if(getEntity() != Airport.class && getEntity() != FlightInfo.class) {
+        if (!isEmpty()) {
+            confirmation();
+        }
+        if (getEntity() != Airport.class && getEntity() != FlightInfo.class) {
             try {
                 Stage stage = new Stage();
                 FXMLLoader root = new FXMLLoader(getClass().getResource("/gui/searchWindow.fxml"));
@@ -101,23 +107,25 @@ public abstract class BaseController {
                 Scene scene = new Scene(anchorPane, 305, 400);
                 stage.setTitle("Search");
                 stage.setScene(scene);
+                stage.getIcons().add(new Image("icons/search.png"));
                 stage.initModality(Modality.WINDOW_MODAL);
                 stage.initOwner(tableView.getScene().getWindow());
-                stage.setOnHidden(event -> {
-                    //setonHidden
-                });
+                stage.addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowEvent);
                 stage.showAndWait();
-                return true;
+                return !closingByUser;
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
-        }
-        else {
+        } else {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Search for this table is unacceptable");
             alert.setHeaderText("Attention");
             alert.showAndWait();
         }
-        return false;
+        return closingByUser;
+    }
+
+    private <T extends Event> void closeWindowEvent(T t) {
+        closingByUser = true;
     }
 
     public static void setMap(Map map) {
@@ -131,5 +139,6 @@ public abstract class BaseController {
     public void refresh() {
         tableView.getItems().clear();
         tableView.setItems(service.findAll(tableView.getId()));
+        changedList.clear();
     }
 }

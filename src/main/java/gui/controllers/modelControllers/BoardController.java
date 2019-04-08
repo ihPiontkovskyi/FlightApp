@@ -1,7 +1,7 @@
 package gui.controllers.modelControllers;
 
-import gui.controllers.tableCellComponent.DateEditingCell;
-import gui.controllers.tableCellComponent.EditingCell;
+import gui.controllers.customObjects.DateEditingCell;
+import gui.controllers.customObjects.EditingCell;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
@@ -29,7 +29,7 @@ public class BoardController extends BaseController {
     public void add() {
         Board board = new Board();
         tableView.getItems().add(board);
-        changedSet.add(board);
+        changedList.add(board);
     }
 
     @Override
@@ -39,13 +39,16 @@ public class BoardController extends BaseController {
 
     private void setDynamicColumn() {
         tableView.getColumns().clear();
+        TableColumn boardNumber = new TableColumn("Board number");
+        boardNumber.setCellValueFactory(new PropertyValueFactory<Board,Integer>("boardID"));
+        boardNumber.editableProperty().setValue(false);
         TableColumn boardLastRepairColumn = new TableColumn("Last repair");
         boardLastRepairColumn.setMinWidth(100);
         boardLastRepairColumn.setCellValueFactory(new PropertyValueFactory<Board, Date>("lastRepair"));
         boardLastRepairColumn.setCellFactory(p -> new DateEditingCell<Board, java.util.Date>());
         boardLastRepairColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Board, java.util.Date>>) t -> {
             t.getRowValue().setLastRepair(Date.valueOf(t.getNewValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));
-            changedSet.add(t.getRowValue());
+            changedList.add(t.getRowValue());
         });
         TableColumn boardFreeSeatColumn = new TableColumn("Free seat");
         boardFreeSeatColumn.setMinWidth(100);
@@ -62,7 +65,7 @@ public class BoardController extends BaseController {
                     tableView.refresh();
                 } else {
                     t.getRowValue().setFreeSeat(Integer.parseInt(t.getNewValue()));
-                    changedSet.add(t.getRowValue());
+                    changedList.add(t.getRowValue());
                 }
             } catch (Exception ex) {
                 Alert alert_ = new Alert(Alert.AlertType.ERROR, "An exception occurred!");
@@ -78,8 +81,8 @@ public class BoardController extends BaseController {
         boardJetTypeColumn.setCellFactory(p -> new EditingCell<Board, String>());
         boardJetTypeColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Board, String>>) t -> {
             t.getRowValue().setJetType(t.getNewValue());
-            changedSet.add(t.getRowValue());
+            changedList.add(t.getRowValue());
         });
-        tableView.getColumns().addAll(boardFreeSeatColumn, boardJetTypeColumn, boardLastRepairColumn);
+        tableView.getColumns().addAll(boardNumber,boardFreeSeatColumn, boardJetTypeColumn, boardLastRepairColumn);
     }
 }

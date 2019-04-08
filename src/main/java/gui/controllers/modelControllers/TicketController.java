@@ -1,8 +1,8 @@
 package gui.controllers.modelControllers;
 
-import gui.controllers.tableCellComponent.ComboBoxCell;
-import gui.controllers.tableCellComponent.DateEditingCell;
-import gui.controllers.tableCellComponent.EditingCell;
+import gui.controllers.customObjects.ComboBoxCell;
+import gui.controllers.customObjects.DateEditingCell;
+import gui.controllers.customObjects.EditingCell;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -35,7 +35,7 @@ public class TicketController extends BaseController {
     public void add() {
         Ticket ticket = new Ticket();
         tableView.getItems().add(ticket);
-        changedSet.add(ticket);
+        changedList.add(ticket);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class TicketController extends BaseController {
         ticketDatePurchaseColumn.setCellFactory(p -> new DateEditingCell<Ticket, Date>());
         ticketDatePurchaseColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Ticket, java.util.Date>>) t -> {
             t.getRowValue().setDatePurchase(Date.valueOf(t.getNewValue().toInstant().atZone(ZoneId.systemDefault()).toLocalDate()));
-            changedSet.add(t.getRowValue());
+            changedList.add(t.getRowValue());
         });
         TableColumn ticketClassTypeColumn = new TableColumn("Class type");
         ticketClassTypeColumn.setMinWidth(100);
@@ -59,7 +59,7 @@ public class TicketController extends BaseController {
         ticketClassTypeColumn.setCellFactory(p -> new ComboBoxCell<Ticket,String>(classes));
         ticketClassTypeColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Ticket, String>>) t -> {
             t.getRowValue().setClassType(t.getNewValue());
-            changedSet.add(t.getRowValue());
+            changedList.add(t.getRowValue());
         });
         TableColumn ticketPriceColumn = new TableColumn("Price");
         ticketPriceColumn.setMinWidth(100);
@@ -76,7 +76,7 @@ public class TicketController extends BaseController {
                     tableView.refresh();
                 } else {
                     t.getRowValue().setPrice(Double.parseDouble(t.getNewValue()));
-                    changedSet.add(t.getRowValue());
+                    changedList.add(t.getRowValue());
                 }
             } catch (Exception ex) {
                 Alert alert_ = new Alert(Alert.AlertType.ERROR, "An exception occurred!");
@@ -92,7 +92,7 @@ public class TicketController extends BaseController {
         ticketClientColumn.setCellFactory(p -> new ComboBoxCell<Ticket, Client>(new ServiceImpl<Client>().findAll("Client")));
         ticketClientColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Ticket, Client>>) t -> {
             t.getRowValue().setClient(t.getNewValue());
-            changedSet.add(t.getRowValue());
+            changedList.add(t.getRowValue());
         });
         TableColumn ticketBoardColumn = new TableColumn("Board");
         ticketBoardColumn.setMinWidth(100);
@@ -100,7 +100,7 @@ public class TicketController extends BaseController {
         ticketBoardColumn.setCellFactory(p -> new ComboBoxCell<Ticket, Board>(new ServiceImpl<Board>().findAll("Board")));
         ticketBoardColumn.setOnEditCommit((EventHandler<TableColumn.CellEditEvent<Ticket, Board>>) t -> {
             t.getRowValue().setBoard(t.getNewValue());
-            changedSet.add(t.getRowValue());
+            changedList.add(t.getRowValue());
         });
         tableView.getColumns().addAll(ticketClientColumn, ticketBoardColumn,ticketPriceColumn, ticketDatePurchaseColumn, ticketClassTypeColumn);
     }

@@ -26,13 +26,23 @@ public class Client implements BaseModel{
     @Field
     private String passportID;
 
-    @ContainedIn
+    @IndexedEmbedded
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Ticket> tickets;
 
     @ContainedIn
-    @ManyToMany(mappedBy = "clients")
-    private List<Board> client;
+    @ManyToMany(mappedBy = "fromBoardToClient")
+    private List<Board> fromBoardToClient;
+
+    @IndexedEmbedded
+    @ManyToMany
+    @JoinTable(
+            name = "ticket",
+            joinColumns = {@JoinColumn(name = "client")},
+            inverseJoinColumns = {@JoinColumn(name = "board")}
+    )
+    private List<Board> fromClientToBoard;
+
 
     @Override
     public String toString() {
